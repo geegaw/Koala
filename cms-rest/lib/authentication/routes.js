@@ -36,6 +36,4 @@ AuthenticationRouter.post("/logout", function(req, res){
     res.redirect('/login');
 });
 
-
-
 module.exports = AuthenticationRouter;
