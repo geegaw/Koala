@@ -1,0 +1,20 @@
+{
+  "name": "koala-cms-rest",
+  "version": "0.0.1",
+  "description": "Backend REST api for koala cms",
+  "author": "Christophe Vaugeois <cavaugeois@koolah.org>",
+  "repository": {
+    "url": "https://github.com/geegaw/Koala",
+    "type": "git"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "express": "~4.14",
+    "lodash": "~4.16",
+    "mongodb": "~2.2",
+    "morgan": "~1.7"
+  },
+  "scripts": {
+    "start": "node server.js"
+  }
+}
