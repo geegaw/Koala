@@ -18,6 +18,4 @@ StatusRouter.get("/version", function(req, res){
     }));
 });
 
-
-
 module.exports = StatusRouter;

@@ -14,7 +14,7 @@ app.use(morgan("combined"));
 app.use("/public", express.static(__dirname + "/public"));
 app.use("/login", require("./lib/authentication/routes"));
 
-//app.use(checkAuth);
+app.use(checkAuth);
 app.use("/api", require("./lib/api/routes"));
 app.get("/*", function(req, res) {
     res.sendFile(__dirname + "/lib/templates/index.html");
