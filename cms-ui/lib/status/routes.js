@@ -1,22 +1,21 @@
 "use strict";
 
 const express = require("express");
-const Responses = require("../helpers/responses");
 
 let StatusRouter = express.Router();
 
 StatusRouter.get("/status", function(req, res){
-    Responses.json(res, {
+    res.setHeader("Content-Type", "application/json");
+    res.send(JSON.stringify({
         status: "ok",
-    });
+    }));
 });
 
 StatusRouter.get("/version", function(req, res){
-    Responses.json(res, {
+    res.setHeader("Content-Type", "application/json");
+    res.send(JSON.stringify({
         version: require("../../package.json").version,
-    });
+    }));
 });
-
-
 
 module.exports = StatusRouter;

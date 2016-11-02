@@ -3,12 +3,10 @@
 const express = require("express");
 const Responses = require("../helpers/responses");
 
-let StatusRouter = express.Router();
+let KoalaUIRouter = express.Router();
 
-StatusRouter.get("/status", function(req, res){
-    Responses.json(res, {
-        status: "ok",
-    });
+KoalaUIRouter.get("/login", function(req, res){
+
 });
 
 StatusRouter.get("/version", function(req, res){
@@ -17,6 +15,4 @@ StatusRouter.get("/version", function(req, res){
     });
 });
 
-
-
-module.exports = StatusRouter;
+module.exports = KoalaUIRouter;

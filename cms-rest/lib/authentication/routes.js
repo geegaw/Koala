@@ -21,6 +21,7 @@ AuthenticationRouter.post("/login", function(req, res){
                 req.session.userId = User.id;
                 Responses.json({
                     userId: User.id,
+                    sessionId: req.session.id,
                 });
             } else {
                 Responses.json({
