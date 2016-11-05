@@ -4,12 +4,10 @@ const config = require("../../config");
 const MongoModel = require("./MongoModel");
 
 class Role extends MongoModel{
-    constructor(options) {
-        this.collection = "roles";
-
+    constructor(options = {}) {
+        options.collection = "roles"
         super(options);
-
-        this.data.permissions = [];
+        this.data.permissions = options.permissions || [];
     }
 
     hasPermission(permission) {

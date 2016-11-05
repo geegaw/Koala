@@ -6,11 +6,9 @@ const Role = require("./Role");
 
 class User extends MongoModel{
 
-    constructor(options) {
-        this.collection = "users";
-
+    constructor(options = {}) {
+        options.collection = "users";
         super(options);
-
         this.data.roles = [];
     }
 
@@ -23,7 +21,7 @@ class User extends MongoModel{
             return false;
         }
 
-        this.fetchByUsername(username).then({
+        this.fetchByUsername(username).then(function(){
             return this.id && this.data.password !== password;
         })
     }

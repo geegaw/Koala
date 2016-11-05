@@ -4,10 +4,10 @@ let mongo = require("../db/Mongo");
 
 class MongoModel {
 
-    constructor(options) {
-        options = options || {};
+    constructor(options = {}) {
         this.id = options.id || null;
         this.data = options.data || {};
+        this.collection = options.collection || null;
 
         if (!this.collection) {
             throw new Error("collection is required");
@@ -15,15 +15,26 @@ class MongoModel {
         this._db = mongo.collection(this.collection);
     }
 
-    fetch() {
-        return this.find({_id: this.id});
+    find(query) {
+        var self = this;
+        return this._db.findOne(query).then(function(result){
+            if (!result) {
+                return false;
+            }
+
+            self.id = result._id;
+            delete result._id;
+            self.data = Object.assign({}, result);
+
+            return true;
+        });
     }
 
-    find(query) {
-        return this._db.find(query).then(function(cursor){
-            this.data = cursor.toArray()[0] || {};
-            this.id = this.data._id;
-        });
+    fetch() {
+        if (!this.id){
+            throw new Error("no id is present");
+        }
+        return this.find({_id: this.id});
     }
 
     beforeSave(data){
@@ -31,14 +42,12 @@ class MongoModel {
     }
 
     save(data) {
-        if (this.id) {
-            return this.beforeSave(data).then(this._create).then(this.afterSave());
-        }
-        return this.beforeSave(data).then(this._update).then(this.afterSave());
+        var method = this.id ? "_update" : "_create";
+        return this.beforeSave(data).then(this[method]).then(this.afterSave());
     }
 
     _create(data) {
-        return this._db.insertOne(data).then(function(item){
+        return this._db.insertOne(this.data).then(function(item){
             this.id = item.insertedId;
         });
     }
