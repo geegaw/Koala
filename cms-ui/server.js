@@ -1,11 +1,21 @@
 "use strict";
 
 const express = require("express");
+const session = require("express-session");
+const bodyParser = require("body-parser");
 const config = require("./config");
 const morgan = require("morgan");
 
 let checkAuth = require("./lib/code/server/authentication/middleware");
 let app = express();
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(session({
+    secret: config.session.secret,
+    resave: false,
+    saveUninitialized: true,
+}));
 
 app.use("/", require("./lib/code/server/status/routes"));
 

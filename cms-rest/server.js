@@ -1,11 +1,19 @@
 "use strict";
 
 const express = require("express");
-const config = require("./config");
+const session = require("express-session");
+const bodyParser = require("body-parser");
 const morgan = require("morgan");
+const config = require("./config");
 
 let mongo = require("./lib/db/Mongo");
 let app = express();
+app.use(bodyParser.json());
+app.use(session({
+    secret: config.session.secret,
+    resave: false,
+    saveUninitialized: true,
+}));
 
 app.use("/", require("./lib/status/routes"));
 

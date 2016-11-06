@@ -1,19 +1,36 @@
 "use strict";
 
 const express = require("express");
+const session = require("express-session");
 const path = require("path");
-const proxy = require("../helpers/proxy");
+const rp = require("request-promise");
+const config = require("../../../../config");
 
 let AuthenticationRouter = express.Router();
 
 AuthenticationRouter.get("*", function(req, res) {
-    res.sendFile(path.resolve(__dirname + "/../../../templates/login.html"));
+    if (req.session.userId) {
+        res.redirect("/home");
+    } else {
+        res.sendFile(path.resolve(__dirname + "/../../../templates/login.html"));
+    }
 });
 
 AuthenticationRouter.post("*", function(req, res) {
-    return proxy(req, res, "POST").then(function(resp){
-        req.session.userId = resp.userId;
-        req.session.sessionId = resp.sessionId;
+    let options = {
+        method: "POST",
+        uri: config.api.host + "/login",
+        body: req.body,
+        json: true
+    };
+
+    return rp.post(options).then(function(result) {
+        req.session.userId = result.userId;
+        req.session.sessionId = result.sessionId;
+        res.sendStatus(200);
+    }).catch(function (error) {
+        console.error(error.toString());
+        res.sendStatus(403);
     });
 });
 
