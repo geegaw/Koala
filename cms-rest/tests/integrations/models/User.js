@@ -149,6 +149,12 @@ describe("User", function(){
     });
 
     describe(".toJSON", function() {
+        it ("removes password from json", function(){
+            expect(user.toJSON().password).toBe(undefined);
+        });
+    });
+
+    describe(".toDB", function() {
         let role;
 
         beforeEach(function(done){
@@ -168,29 +174,20 @@ describe("User", function(){
             role._db.remove().then(done);
         });
 
-        it ("removes password from json", function(){
-            expect(user.toJSON().password).toBe(undefined);
+        it ("has the password", function(){
+            expect(user.toDB().password).toBe("encrypted");
         });
 
         it ("keeps roles as ids when not expanded", function(){
-            expect(user.toJSON().roles).toEqual([role.id]);
+            expect(user.toDB().roles).toEqual([role.id]);
         });
 
         it ("uses roles' ids when expanded", function(done){
             user.expand(Role, "roles").then(function(){
-                expect(user.toJSON().roles).toEqual([role.id]);
+                expect(user.toDB().roles).toEqual([role.id]);
                 done();
             });
         });
     });
 
-    describe(".beforeSave", function() {
-        it ("adds back password", function(done){
-            user.beforeSave().then(function(data){
-                expect(data.password).toBe("encrypted");
-                done();
-            });
-        });
-
-    });
 });

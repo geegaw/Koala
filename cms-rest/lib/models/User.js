@@ -4,8 +4,17 @@ const config = require("../../config");
 const MongoModel = require("./MongoModel");
 const Role = require("./Role");
 
+/**
+* Class User
+ * model and utitliy methods for a user model
+* @extends MongoModel
+*/
 class User extends MongoModel{
 
+    /**
+     * Sets the collection to users
+     * @param {Object} options
+     */
     constructor(options = {}) {
         options.collection = "users";
         options.username = options.username || "";
@@ -15,10 +24,21 @@ class User extends MongoModel{
         super(options);
     }
 
+    /**
+     * Looks up a user by usersname and sets the model if found
+     * @returns {Promise|Boolean}
+     */
     fetchByUsername() {
         return this.find({username: this.data.username});
     }
 
+    /**
+     * authenticates a user by their combination of username and password
+     * sets the model if authenticated
+     * @param {String} username
+     * @param {String} password
+     * @returns {Promise|Boolean}
+     */
     authenticate(username, password) {
         if (!username.length || !password.length) {
             return Promise.resolve(false);
@@ -32,7 +52,10 @@ class User extends MongoModel{
     }
 
     /**
+     * Validates if a user has desired permission
      * @requires user is authenticated
+     * @param {String} permission
+     * @returns {Boolean}
      */
     can(permission) {
         if (this.data.username === config.root.username) {
@@ -52,27 +75,34 @@ class User extends MongoModel{
         });
     }
 
+    /**
+     * Removes the password from being exposed
+     * @returns {Object}
+     */
     toJSON() {
         let json = super.toJSON();
         delete json.password;
+        return json;
+    }
+
+    /**
+     * Ensures password is included and sets the roles to their ids if expanded
+     * @returns {Object}
+     */
+    toDB() {
+        let data = super.toJSON();
+
+        if (this.data.password) {
+            data.password = this.data.password;
+        }
 
         let roles = [];
         this.data.roles.forEach(function(role){
             roles.push((role instanceof Role) ? role.id : role);
         });
-        json.roles = roles;
+        data.roles = roles;
 
-        return json;
-    }
-
-    beforeSave() {
-        let self = this;
-        return super.beforeSave().then(function(data) {
-            if (self.data.password) {
-                data.password = self.data.password;
-            }
-            return data;
-        });
+        return data;
     }
 
 }
