@@ -1,1 +1,11 @@
+@import "reset";
+@import "vars";
 @import "colors";
+
+*{
+  box-sizing: border-box;
+}
+
+.hide {
+  display: none;
+}
