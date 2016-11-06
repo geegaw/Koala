@@ -14,7 +14,13 @@
     "mongodb": "~2.2",
     "morgan": "~1.7"
   },
+  "devDependencies": {
+      "gulp": "~3.9",
+      "gulp-jasmine": "~2.4",
+      "gulp-jsdoc3": "~1.0"
+  },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "gulp test"
   }
 }

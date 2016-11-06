@@ -10,6 +10,9 @@ var mongo = {
             mongo.db = db;
         });
     },
+    collection: function(collectionName) {
+        return mongo.db.collection(collectionName);
+    },
     close: function(){
         return mongo.db.close();
     }

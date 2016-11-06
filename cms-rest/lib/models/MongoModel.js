@@ -2,12 +2,23 @@
 
 let mongo = require("../db/Mongo");
 
+/**
+ * Class MongoModel
+ * Main class that interacts with the database
+ */
 class MongoModel {
 
-    constructor(options) {
-        options = options || {};
+    /**
+     * @param {Object} [options={}]
+     * @throws Will throw an error if no collection is passed
+     */
+    constructor(options = {}) {
         this.id = options.id || null;
-        this.data = options.data || {};
+        this.collection = options.collection || null;
+
+        delete(options.id);
+        delete(options.collection);
+        this.data = options;
 
         if (!this.collection) {
             throw new Error("collection is required");
@@ -15,66 +26,166 @@ class MongoModel {
         this._db = mongo.collection(this.collection);
     }
 
+    /**
+     * Searchs the collection by the query passed
+     * sets the model if it finds a document
+     * @param {Object} query
+     * @returns {Boolean}
+     */
+    find(query) {
+        var self = this;
+        return this._db.findOne(query).then(function(result){
+            if (!result) {
+                return false;
+            }
+
+            self.id = result._id;
+            delete result._id;
+            self.data = Object.assign({}, result);
+
+            return true;
+        });
+    }
+
+    /**
+     * Fetches the record by its id
+     * @throws Will throw an error if no id is set
+     * @returns {Boolean}
+     */
     fetch() {
+        if (!this.id){
+            throw new Error("no id is present");
+        }
         return this.find({_id: this.id});
     }
 
-    find(query) {
-        return this._db.find(query).then(function(cursor){
-            this.data = cursor.toArray()[0] || {};
-            this.id = this.data._id;
+    /**
+     * Returns the data to be returned to a request
+     * @returns {Object}
+     */
+    toJSON() {
+        let self = this;
+        let data = {};
+        let keys = Object.keys(self.data);
+        keys.forEach(function(key){
+            let item = self.data[key];
+            if (typeof item === "object" && typeof item.toJSON === "function") {
+                data[key] = self.data[key].toJSON();
+            } else {
+                data[key] = item;
+            }
         });
-    }
-
-    beforeSave(data){
         return data;
     }
 
-    save(data) {
-        if (this.id) {
-            return this.beforeSave(data).then(this._create).then(this.afterSave());
-        }
-        return this.beforeSave(data).then(this._update).then(this.afterSave());
+    /**
+     * Returns the data to be stored in the database
+     * @returns {Object}
+     */
+    toDB() {
+        return this.toJSON();
     }
 
+    /**
+     * Method to manipulate data before saving
+     * @returns {Promise|Object}
+     */
+    beforeSave(){
+        return Promise.resolve(this.toDB());
+    }
+
+    /**
+     * Updates or Creates the model into the db
+     * @returns {Promise|*}
+     */
+    save() {
+        var method = this.id ? "_update" : "_create";
+        return this.beforeSave().then(this[method].bind(this)).then(this.afterSave.bind(this));
+    }
+
+    /**
+     * Create model in db and set the id
+     * @param {Object} data
+     * @returns {Promise|Boolean}
+     * @private
+     */
     _create(data) {
+        var self = this;
         return this._db.insertOne(data).then(function(item){
-            this.id = item.insertedId;
+            self.id = item.insertedId;
+            return Promise.resolve(true);
         });
     }
 
+    /**
+     * Update the model in the db
+     * @param {object} data
+     * @returns {Promise}
+     * @private
+     */
     _update(data) {
         return this._db.updateOne({_id: this.id}, data);
     }
 
+    /**
+     * Manipulate the model after its been saved
+     */
     afterSave(){
         return;
     }
 
+    /**
+     * Manipulate model before deleting
+     * @returns {Promise}
+     */
     beforeDelete(){
-        return;
+        return Promise.resolve();
     }
 
+    /**
+     * Delete the model from the db
+     * @returns {Promise|Boolean}
+     */
     delete() {
-        return this.beforeSave().then(function(){
-            return this._db.deleteOne({_id: this.id});
-        }).then(this.afterDelete);
+        let self = this;
+        return this.beforeDelete().then(function(){
+            return self._db.deleteOne({_id: self.id});
+        }).then(this.afterDelete.bind(this));
     }
 
+    /**
+     * Manipulate data after delete, responds with status of deletion
+     * @throws Error if no document was deleted
+     * @throws Error if more the one document was deleted
+     * @see https://docs.mongodb.com/v3.2/reference/method/db.collection.deleteOne/
+     * @param {Object} doc
+     * @returns {boolean}
+     */
     afterDelete(doc){
-        return doc.acknowledged;
+        if (doc.deletedCount === 0){
+            throw new Error("No document deleted");
+        } else if (doc.deletedCount > 1) {
+            throw new Error("Multiple documents deleted");
+        }
+        return true;
     }
 
+    /**
+     * Expand a field, an array of ids, with each id's Model
+     * @param {MongoModel} Model
+     * @param {Sting} field
+     * @returns {Promise}
+     */
     expand(Model, field){
+        let self = this;
         var promises = [];
-        this.data[field].forEach(function(id){
+        this.data[field].forEach(function(id, key){
             var model = new Model({id: id});
+            self.data[field][key] = model;
             promises.push(model.fetch());
         });
 
-        return Promise.all(promises).then(function(models){
-            this.data[field] = models;
-        });
+        return Promise.all(promises);
     }
 
 }
