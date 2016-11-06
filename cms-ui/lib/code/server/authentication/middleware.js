@@ -4,7 +4,7 @@ const _ = require("lodash");
 
 function checkAuth(req, res, next){
     if (!_.get(req, "session.userId")) {
-        res.sendStatus(403);
+        res.redirect("/login");
     } else {
         next();
     }

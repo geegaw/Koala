@@ -7,7 +7,7 @@ const proxy = require("../helpers/proxy");
 let AuthenticationRouter = express.Router();
 
 AuthenticationRouter.get("*", function(req, res) {
-    res.sendFile(path.resolve(__dirname + "/../templates/login.html"));
+    res.sendFile(path.resolve(__dirname + "/../../../templates/login.html"));
 });
 
 AuthenticationRouter.post("*", function(req, res) {
