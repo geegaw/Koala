@@ -3,7 +3,7 @@
 const config = require("../../config");
 const Client = require("mongodb").MongoClient;
 
-var mongo = {
+const mongo = {
     client: Client,
     connect: function(){
         return mongo.client.connect(config.db.host).then(function(db) {

@@ -1,4 +1,5 @@
-"use strict"
+"use strict";
+
 const config = {
     root: {
         username: "root",
@@ -8,6 +9,6 @@ const config = {
     db: {
         host: "mongodb://localhost:27017/koala",
     },
-}
+};
 
 module.exports =  config;

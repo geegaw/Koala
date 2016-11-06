@@ -1,6 +1,5 @@
-"use strict"
+"use strict";
 
-const config = require("../../config");
 const MongoModel = require("./MongoModel");
 
 /**
@@ -15,7 +14,7 @@ class Role extends MongoModel{
      * @param {Object} options
      */
     constructor(options = {}) {
-        options.collection = "roles"
+        options.collection = "roles";
         options.permissions =  options.permissions || [];
         super(options);
     }
