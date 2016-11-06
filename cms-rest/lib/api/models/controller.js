@@ -5,59 +5,18 @@ const Responses = require("../../helpers/responses");
 
 class ModelsController{
 
-    getModel(modelName) {
+    _getModel(modelName) {
         if (models[modelName]){
             return models[modelName];
         }
         return false;
     }
 
-    authorize (model, user, permission) {
-        if (!model[permission]){
-            return false;
-        }
-        return user.can(model[permission]);
+    _authorize (model, user, permission) {
+        return user.can(permission + "_" + model.collection);
     }
 
-    get (res, modelName, id, user) {
-        let model = this.verifyModel(res, modelName, "create", user);
-        return model.get(id).then(function(){
-            Responses.json(model.toJSON());
-        });
-    }
-
-    post (res, modelName, data, user) {
-        let model = this.verifyModel(res, modelName, "create", user);
-        return this.save(res, model, data);
-    }
-
-    put (res, modelName, data, user) {
-        let model = this.verifyModel(res, modelName, "update", user);
-        return this.save(res, model, data);
-    }
-
-    save (res, model, data) {
-        return model.save(data).then(function(){
-            Responses.json(res, {
-                id: model.id,
-            });
-        }).catch(function(error){
-            Responses.error(res, error);
-        });
-    }
-
-    delete (res, modelName, id, user) {
-        let model = this.verifyModel(res, modelName, "delete", user)
-        return model.delete(data).then(function(){
-            Responses.json(res, {
-                success: true,
-            });
-        }).catch(function(error){
-            return Responses.error(res, error);
-        });
-    }
-
-    verifyModel (res, modelName, permission, user ) {
+    _verifyModel (res, modelName, permission, user ) {
         let Model = this.getModel(modelName);
         if (Model === false){
             Responses.error(res, `Unkown modelName: ${modelName}`);
@@ -66,12 +25,66 @@ class ModelsController{
 
         let model = new Model();
         if (!this.authorize(model, user, "delete")) {
-            Responses.unauthorized();
+            Responses.unauthorized(res);
             return false;
         }
 
-        return model;
+        return Model;
     }
+
+    _save (res, Model) {
+        let model = new Model(data);
+        return model.save().then(function(){
+            Responses.json(res, {
+                id: model.id,
+            });
+        }).catch(function(error){
+            Responses.error(res, error);
+        });
+    }
+
+    get (res, modelName, id, user) {
+        const Model = this._verifyModel(res, modelName, "read", user);
+        if (Model) {
+            let model = new Model({
+                id: id
+            });
+            return model.fetch().then(function(){
+                Responses.json(res, Object.assign({}, model.toJSON()), {id: model.id});
+            });
+        }
+    }
+
+    post (res, modelName, data, user) {
+        const Model = this._verifyModel(res, modelName, "create", user);
+        if (Model) {
+            return this._save(res, Model, data);
+        }
+    }
+
+    put (res, modelName, data, user) {
+        const Model = this._verifyModel(res, modelName, "update", user);
+        if (Model) {
+            return this._save(res, Model, data);
+        }
+    }
+
+    delete (res, modelName, id, user) {
+        const Model = this._verifyModel(res, modelName, "delete", user);
+        if (Model) {
+            let model = new Model({
+                id: id
+            });
+            return model.delete().then(function(success) {
+                Responses.json(res, {
+                    success: success,
+                });
+            }).catch(function (error) {
+                return Responses.error(res, error);
+            });
+        }
+    }
+
 }
 
 module.exports = ModelsController;

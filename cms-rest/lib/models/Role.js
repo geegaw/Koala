@@ -6,8 +6,8 @@ const MongoModel = require("./MongoModel");
 class Role extends MongoModel{
     constructor(options = {}) {
         options.collection = "roles"
+        options.permissions =  options.permissions || [];
         super(options);
-        this.data.permissions = options.permissions || [];
     }
 
     hasPermission(permission) {
