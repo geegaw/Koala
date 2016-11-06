@@ -1,7 +1,6 @@
 "use strict";
 
 const express = require("express");
-const path = require("path");
 const proxy = require("../helpers/proxy");
 
 let APIRouter = express.Router();

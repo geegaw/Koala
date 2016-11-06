@@ -1,7 +1,7 @@
 "use strict";
 
 const rp = require("request-promise");
-const config = require("../../config");
+const config = require("../../../../config");
 
 function proxy(req, res, method) {
     let options = {
@@ -14,6 +14,7 @@ function proxy(req, res, method) {
     return rp.post(options).then(function () {
         res.sendStatus(200);
     }).catch(function (error) {
+        console.error(error);
         res.sendStatus(403);
     });
 }
