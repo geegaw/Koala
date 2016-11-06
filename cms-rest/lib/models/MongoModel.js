@@ -33,7 +33,7 @@ class MongoModel {
      * @returns {Boolean}
      */
     find(query) {
-        var self = this;
+        let self = this;
         return this._db.findOne(query).then(function(result){
             if (!result) {
                 return false;
@@ -99,7 +99,7 @@ class MongoModel {
      * @returns {Promise|*}
      */
     save() {
-        var method = this.id ? "_update" : "_create";
+        let method = this.id ? "_update" : "_create";
         return this.beforeSave().then(this[method].bind(this)).then(this.afterSave.bind(this));
     }
 
@@ -110,7 +110,7 @@ class MongoModel {
      * @private
      */
     _create(data) {
-        var self = this;
+        let self = this;
         return this._db.insertOne(data).then(function(item){
             self.id = item.insertedId;
             return Promise.resolve(true);
@@ -178,9 +178,9 @@ class MongoModel {
      */
     expand(Model, field){
         let self = this;
-        var promises = [];
+        let promises = [];
         this.data[field].forEach(function(id, key){
-            var model = new Model({id: id});
+            let model = new Model({id: id});
             self.data[field][key] = model;
             promises.push(model.fetch());
         });

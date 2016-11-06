@@ -126,7 +126,6 @@ describe("User", function(){
         });
 
         it ("says the user can't when the role is unkown", function(done){
-            let testUser = new User({username: "root", roles: ["ab123"]});
             user.can("anythingiwant").then(function(can){
                 expect(can).toBe(false);
                 done();

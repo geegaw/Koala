@@ -3,8 +3,12 @@
 const gulp = require("gulp");
 const jasmine = require("gulp-jasmine");
 const jsdoc = require("gulp-jsdoc3");
+const jshint = require("gulp-jshint");
 
 const TESTS = "./tests/integrations/**/*.js";
+const LIB_JS = "./lib/**/*.js"
+const ALL_JS = [LIB_JS, TESTS, "./server.js", "./config.js"];
+
 
 gulp.task("test:unit", function(){
     gulp.src(TESTS).pipe(jasmine({
@@ -13,7 +17,13 @@ gulp.task("test:unit", function(){
     }));
 });
 
-gulp.task("test", ["test:unit"]);
+gulp.task("lint:js", function(){
+    return gulp.src(ALL_JS)
+        .pipe(jshint())
+        .pipe(jshint.reporter("default"));
+});
+
+gulp.task("test", ["lint:js", "test:unit"]);
 
 gulp.task("doc", function () {
     var config = require("./jsdoc.json");

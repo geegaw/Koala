@@ -32,7 +32,7 @@ class ModelsController{
         return Model;
     }
 
-    _save (res, Model) {
+    _save (res, Model, data) {
         let model = new Model(data);
         return model.save().then(function(){
             Responses.json(res, {

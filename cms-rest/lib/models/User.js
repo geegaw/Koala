@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 const config = require("../../config");
 const MongoModel = require("./MongoModel");
@@ -62,7 +62,7 @@ class User extends MongoModel{
             return Promise.resolve(true);
         }
 
-        var self = this;
+        let self = this;
         return this.expand(Role, "roles").then(function(){
             // use ``for`` instead of ``forEach``
             // so that we can return as soon as we can validate
@@ -70,7 +70,7 @@ class User extends MongoModel{
                 if (self.data.roles[i].hasPermission(permission)) {
                     return true;
                 }
-            };
+            }
             return false;
         });
     }

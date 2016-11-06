@@ -53,7 +53,7 @@ describe("ModelsController", function(){
                         ],
                     });
                     user.save().then(done);
-                })
+                });
             });
         });
 
