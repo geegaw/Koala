@@ -2,6 +2,7 @@
 
 const browserify = require("browserify");
 const gulp = require("gulp");
+const compiler = require("gulp-hogan-compile");
 const jasmine = require("gulp-jasmine");
 const jsdoc = require("gulp-jsdoc3");
 const jshint = require("gulp-jshint");
@@ -16,6 +17,8 @@ const LIB_JS = `${CODE_DIR}/**/*.js`;
 const LIB_SASS = "./lib/sass/*.scss";
 const ALL_SASS = "./lib/sass/**/*.scss";
 const ALL_JS = [LIB_JS, TESTS, "./server.js", "./config.js"];
+
+const TEMPLATES = "./lib/templates/**/*.html";
 
 const BROWSER_DIR = `${CODE_DIR}/browser`;
 const BROWSER_CODE = `${BROWSER_DIR}/**/*.js`;
@@ -51,24 +54,35 @@ gulp.task("sass:watch", function () {
     gulp.watch(ALL_SASS, ["sass"]);
 });
 
-gulp.task("browserify:koala", function () {
+gulp.task("build:koala", function () {
     return browserify(`${BROWSER_DIR}/koala.js`)
         .bundle()
         .pipe(source("koala.js"))
         .pipe(gulp.dest(PUBLIC_JS));
+
+
 });
 
-gulp.task("browserify:login", function () {
+gulp.task("build:login", function () {
     return browserify(`${BROWSER_DIR}/login.js`)
         .bundle()
         .pipe(source("login.js"))
         .pipe(gulp.dest(PUBLIC_JS));
 });
 
-gulp.task("browserify", ["browserify:koala", "browserify:login"]);
+gulp.task("build:js", ["build:koala", "build:login"]);
 
-gulp.task("browserify:watch", function () {
-    gulp.watch(BROWSER_CODE, ["browserify"]);
+gulp.task("build:watch", function () {
+    gulp.watch(BROWSER_CODE, ["build:js"]);
+});
+
+gulp.task("build:templates", function() {
+    gulp.src(TEMPLATES)
+        .pipe(compiler("templates.js", {
+            wrapper: "commonjs",
+            hoganModule: "hogan.js"
+        }))
+        .pipe(gulp.dest("./dist/templates"));
 });
 
 gulp.task("start", function() {
@@ -84,7 +98,7 @@ gulp.task("doc", function () {
         .pipe(jsdoc(config));
 });
 
-gulp.task("build", ["browserify", "sass"]);
+gulp.task("build", ["build:templates", "build:js", "sass"]);
 
-gulp.task("watch", ["sass:watch", "browserify:watch"]);
+gulp.task("watch", ["sass:watch", "build:watch"]);
 gulp.task("default", ["build", "watch", "start"]);

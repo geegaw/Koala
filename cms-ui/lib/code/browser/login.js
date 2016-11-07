@@ -13,7 +13,7 @@ $("form").submit(function() {
         let data = {
             username: $(".username").val().trim(),
             password: hashify($(".password").val().trim()),
-        }
+        };
 
         $.post("/login", data, "json").done(function(){
            window.location = redirectedFrom || "/home";
