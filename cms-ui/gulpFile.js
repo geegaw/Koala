@@ -10,6 +10,8 @@ const nodemon = require("gulp-nodemon");
 const sass = require("gulp-sass");
 const source = require("vinyl-source-stream");
 
+const config = require("./config");
+
 const TESTS = "./tests/**/*.js";
 
 const CODE_DIR = "./lib/code";
@@ -55,12 +57,12 @@ gulp.task("sass:watch", function () {
 });
 
 gulp.task("build:koala", function () {
-    return browserify(`${BROWSER_DIR}/koala.js`)
+    return browserify(`${BROWSER_DIR}/koala.js`, {
+        debug: config.debug,
+    })
         .bundle()
         .pipe(source("koala.js"))
         .pipe(gulp.dest(PUBLIC_JS));
-
-
 });
 
 gulp.task("build:login", function () {
@@ -93,9 +95,9 @@ gulp.task("start", function() {
 });
 
 gulp.task("doc", function () {
-    var config = require("./jsdoc.json");
+    var docConfig = require("./jsdoc.json");
     gulp.src(["README.md", "./lib/**/*.js"], {read: false})
-        .pipe(jsdoc(config));
+        .pipe(jsdoc(docConfig));
 });
 
 gulp.task("build", ["build:templates", "build:js", "sass"]);
