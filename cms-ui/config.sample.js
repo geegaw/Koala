@@ -12,6 +12,7 @@ const config = {
     session: {
         secret: "$ecret",
     },
+    debug: true,
 };
 
 module.exports =  config;
