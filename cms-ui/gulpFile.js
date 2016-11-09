@@ -11,7 +11,6 @@ const sass = require("gulp-sass");
 const sourcemaps = require("gulp-sourcemaps");
 const source = require("vinyl-source-stream");
 
-
 const config = require("./config");
 
 const TESTS = "./tests/**/*.js";
