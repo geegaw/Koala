@@ -11,6 +11,7 @@ const KoalaRouter = Marionette.AppRouter.extend({
 
     appRoutes: {
         "home": "home",
+        "*notfound": "pageNotFound",
     },
 
     onRoute: function(name, path, args) {
