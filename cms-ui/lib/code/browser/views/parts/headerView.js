@@ -5,6 +5,7 @@ const UserNavView = require("./userNavView");
 
 const HeaderView = Marionette.View.extend({
     template: "parts/header",
+    className: "koala-container",
 
     regions: {
         userNav: ".user-nav",
