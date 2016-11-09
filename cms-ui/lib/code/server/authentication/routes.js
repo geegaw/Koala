@@ -1,5 +1,6 @@
 "use strict";
 
+const _ = require("lodash");
 const express = require("express");
 const path = require("path");
 const rp = require("request-promise");
@@ -8,7 +9,7 @@ const config = require("../../../../config");
 let AuthenticationRouter = express.Router();
 
 AuthenticationRouter.get("*", function(req, res) {
-    if (req.session.userId) {
+    if (_.get(req, "session.user.id")) {
         res.redirect("/home");
     } else {
         res.sendFile(path.resolve(__dirname + "/../../../templates/login.html"));
@@ -24,8 +25,9 @@ AuthenticationRouter.post("*", function(req, res) {
     };
 
     return rp.post(options).then(function(result) {
-        req.session.userId = result.userId;
         req.session.sessionId = result.sessionId;
+        req.session.user = result.user;
+
         res.sendStatus(200);
     }).catch(function (error) {
         console.error(error.toString());

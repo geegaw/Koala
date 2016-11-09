@@ -15,12 +15,16 @@ const KoalaView = Marionette.View.extend({
     },
 
     onRender: function() {
-        this.getRegion("header").show(new HeaderView());
+        this.getRegion("header").show(new HeaderView({
+            user: this.getOption("user"),
+        }));
         this.getRegion("footer").show(new FooterView());
     },
 
     loadPage: function(View){
-        this.getRegion("main").show(new View());
+        this.getRegion("main").show(new View({
+            user: this.getOption("user"),
+        }));
     }
 
 });
