@@ -8,7 +8,9 @@ const jsdoc = require("gulp-jsdoc3");
 const jshint = require("gulp-jshint");
 const nodemon = require("gulp-nodemon");
 const sass = require("gulp-sass");
+const sourcemaps = require("gulp-sourcemaps");
 const source = require("vinyl-source-stream");
+
 
 const config = require("./config");
 
@@ -28,6 +30,7 @@ const BROWSER_CODE = `${BROWSER_DIR}/**/*.js`;
 const PUBLIC = "./public";
 const PUBLIC_JS = `${PUBLIC}/js`;
 const PUBLIC_CSS = `${PUBLIC}/css`;
+const PUBLIC_FONTS = `${PUBLIC}/fonts`;
 
 const RELOAD_FILES = ["./server.js", "./config.js", `${PUBLIC}/**/*`];
 
@@ -46,9 +49,20 @@ gulp.task("lint:js", function(){
 
 gulp.task("test", ["lint:js", "test:unit"]);
 
+gulp.task("fontawesome", function(){
+    return gulp.src("./node_modules/font-awesome/fonts/*")
+        .pipe(gulp.dest(PUBLIC_FONTS));
+});
+
 gulp.task("sass", function () {
     return gulp.src(LIB_SASS)
-        .pipe(sass().on("error", sass.logError))
+        .pipe(sourcemaps.init())
+        .pipe(sass({
+            includePaths: [
+                "./node_modules/font-awesome/scss",
+            ],
+        }).on("error", sass.logError))
+        .pipe(sourcemaps.write())
         .pipe(gulp.dest(PUBLIC_CSS));
 });
 
@@ -100,7 +114,7 @@ gulp.task("doc", function () {
         .pipe(jsdoc(docConfig));
 });
 
-gulp.task("build", ["build:templates", "build:js", "sass"]);
+gulp.task("build", ["fontawesome", "build:templates", "build:js", "sass"]);
 
 gulp.task("watch", ["sass:watch", "build:watch"]);
 gulp.task("default", ["build", "watch", "start"]);

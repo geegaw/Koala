@@ -15,6 +15,7 @@
     "browserify": "^13.1.1",
     "express": "~4.14",
     "express-session": "~1.14",
+    "font-awesome": "~4.7",
     "gulp": "~3.9",
     "gulp-hogan-compile": "~1.0",
     "gulp-sass": "~2.3",
@@ -31,6 +32,7 @@
     "gulp-jsdoc3": "~1.0",
     "gulp-jshint": "~2.0",
     "gulp-nodemon": "~2.2",
+    "gulp-sourcemaps": "~2.2",
     "jshint": "~2.9"
   },
   "scripts": {

@@ -1,0 +1,19 @@
+.nav--open {
+  font-size: 1.4rem;
+  cursor: pointer;
+
+  &:before {
+    font-family: $fontawesome;
+  }
+}
+
+.nav--items {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: $z-level-highest;
+  background: $koala-background-color;
+  border-right: 1px solid  $koala-primary-color;
+  padding: 2rem 1rem;
+  height: 100%;
+}
