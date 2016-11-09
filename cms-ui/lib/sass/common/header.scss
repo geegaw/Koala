@@ -1,0 +1,23 @@
+.main-header {
+  padding: 2rem 0;
+  width: 100%;
+  color: $koala-alt-color;
+}
+
+.user-nav {
+  float: right;
+}
+
+.user-name {
+  border-right: 1px solid $koala-alt-color;
+  padding-right: 5px;
+  margin-right: 5px;
+  display: inline-block;
+  float: left;
+}
+
+.logout {
+  display: inline-block;
+  float: left;
+  color: $koala-alt-color;
+}
