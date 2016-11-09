@@ -10,7 +10,6 @@ const KoalaController = Marionette.Object.extend({
         this.triggerMethod("load:view", HomeView);
     },
 
-
 });
 
 module.exports = KoalaController;
