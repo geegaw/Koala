@@ -23,6 +23,11 @@ app.use(morgan("combined"));
 
 app.use("/public", express.static(__dirname + "/public"));
 app.use("/login", require("./lib/code/server/authentication/routes"));
+app.get("/logout", function(req, res) {
+    req.session.destroy(function(){
+        res.redirect("/login");
+    });
+});
 
 app.use(checkAuth);
 app.use("/api", require("./lib/code/server/api/routes"));

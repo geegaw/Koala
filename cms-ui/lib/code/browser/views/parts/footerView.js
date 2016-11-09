@@ -8,7 +8,7 @@ const FooterView = Marionette.View.extend({
     templateContext: function() {
         return {
             year: new Date().getFullYear(),
-        }
+        };
     },
 
 });

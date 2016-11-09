@@ -7,11 +7,15 @@ let APIRouter = express.Router();
 
 function addSessionAndProxy(req, res, method) {
     req.body.sessionInfo = {
-        userId: req.session.userId,
+        userId: req.session.user.id,
         sessionId: req.session.id,
     };
     return proxy(req, res, method);
 }
+
+APIRouter.get("/users/current", function(req, res) {
+    res.send(JSON.stringify(req.session.user));
+});
 
 APIRouter.get("*", function(req, res) {
     return addSessionAndProxy(req, res, "GET");

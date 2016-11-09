@@ -12,7 +12,10 @@ AuthenticationRouter.post("/login", function(req, res){
     if (post.username === config.root.username &&  post.password === config.root.password){
         req.session.userId = "root";
         Responses.json(res, {
-            userId: "root",
+            user: {
+                id: "root",
+                username: "root",
+            },
             sessionId: req.session.id,
         });
     } else {
@@ -21,7 +24,7 @@ AuthenticationRouter.post("/login", function(req, res){
             if (valid) {
                 req.session.userId = User.id;
                 Responses.json(res, {
-                    userId: User.id,
+                    user: User.toJSON(),
                     sessionId: req.session.id,
                 });
             } else {
@@ -34,8 +37,8 @@ AuthenticationRouter.post("/login", function(req, res){
 });
 
 AuthenticationRouter.post("/logout", function(req, res){
-    delete req.session.userId;
-    res.redirect("/login");
+    delete req.session;
+    res.sendStatus(200);
 });
 
 module.exports = AuthenticationRouter;
