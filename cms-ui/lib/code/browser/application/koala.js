@@ -23,15 +23,15 @@ const KoalaApp = Marionette.Application.extend({
         }));
 
         this.router = new KoalaRouter();
-        this.listenTo(this.router.controller, "load:view", this.loadView);
+        this.listenTo(this.router, "load:view", this.loadView);
 
         Backbone.history.start({
-            pushState: true
+            pushState: true,
         });
     },
 
-    loadView: function(View){
-        this.getView().loadPage(View);
+    loadView: function(View, args){
+        this.getView().loadPage(View, args);
     },
 
 });
