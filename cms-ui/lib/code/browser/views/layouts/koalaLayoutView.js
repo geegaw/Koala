@@ -21,10 +21,9 @@ const KoalaView = Marionette.View.extend({
         this.getRegion("footer").show(new FooterView());
     },
 
-    loadPage: function(View){
-        this.getRegion("main").show(new View({
-            user: this.getOption("user"),
-        }));
+    loadPage: function(view){
+        view.options.user =  this.getOption("user");
+        this.getRegion("main").show(view);
     }
 
 });
