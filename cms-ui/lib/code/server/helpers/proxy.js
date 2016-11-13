@@ -11,7 +11,7 @@ function proxy(req, res, method) {
         json: true
     };
 
-    return rp.post(options).then(function(result) {
+    return rp[method](options).then(function(result) {
         res.send(JSON.stringify(result));
     }).catch(function (error) {
         console.error(error);
