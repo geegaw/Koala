@@ -37,10 +37,19 @@ class MongoModel {
      * @param {Object} query
      * @returns {Array}
      */
-    search(query) {
-        let limit = query.limit || NUM_RESULTS;
-        delete query.limit;
-        return this._db.find(query).limit(parseInt(limit)).toArray().then(this.formatSearchResults.bind(this));
+    search(data) {
+        let query = data.query || {};
+        let limit = data.limit || NUM_RESULTS;
+        return this._db.find(this.formatQuery(query)).limit(parseInt(limit)).toArray().then(this.formatSearchResults.bind(this));
+    }
+
+    /**
+     * use to format a query for a specific object
+     * @param {Object} query
+     * @retunrs {Object}
+     */
+    formatQuery(query) {
+        return query;
     }
 
     /**
