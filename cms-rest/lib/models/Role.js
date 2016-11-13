@@ -28,6 +28,22 @@ class Role extends MongoModel{
         return this.data.permissions.indexOf(permission) >= 0;
     }
 
+    /**
+     * returns the id and name of the Role
+     * @param {Array} [results=[]]]
+     * @returns {Array} of Models
+     */
+    formatSearchResults(results) {
+        let formatted = [];
+        results.forEach(function(role){
+            formatted.push({
+                id: role._id,
+                name: role.name,
+            });
+        });
+        return formatted;
+    }
+
 }
 
 module.exports = Role;
