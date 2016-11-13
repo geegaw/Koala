@@ -1,0 +1,23 @@
+<legend>Permissions</legend>
+
+<div class="permissions--permissions">
+    <div class="permissions--permissions--group">
+        <label class="select-all">All</label>
+        <div class="permissions--permissions--group--permissions">
+        {{#permissionLabels}}<div class="permissions--group--permission select-column">{{.}}</div>{{/permissionLabels}}
+        </div>
+    </div>
+
+    {{#permissionsGroup}}
+    <div class="permissions--permissions--group">
+        <label class="select-row">{{label}}</label>
+        <div class="permissions--permissions--group--permissions">
+            {{#permissions}}
+                <div class="permissions--group--permission">
+                    <input type="checkbox" value="{{permission}}" {{#checked}}checked{{/checked}}/>
+                </div>
+            {{/permissions}}
+        </div>
+    </div>
+    {{/permissionsGroup}}
+</div>

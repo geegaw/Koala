@@ -15,8 +15,8 @@ const KoalaRouter = Marionette.AppRouter.extend({
 
     routes: {
 
-        "roles/:id": "editRole",
         "roles/new": "newRole",
+        "roles/:id": "editRole",
         "roles": "roles",
 
         "home": "home",

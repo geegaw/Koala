@@ -1,0 +1,42 @@
+.permissions {
+  padding: 1rem;
+  border: 1px solid $koala-alt-color;
+  background: $koala-alt-background-color;
+  color: $koala-alt-color;
+
+}
+
+.permissions--permissions {
+  margin-top: 1rem;
+}
+
+$label-width: 25%;
+$permissions-width: 99% - $label-width;
+$num-columns: 4;
+$permission-width: $permissions-width / $num-columns;
+.permissions--permissions--group {
+  width: 100%;
+  padding-bottom: .5rem;
+  text-transform: capitalize;
+
+  label {
+    display: inline-block;
+    width: $label-width;
+    cursor: pointer;
+  }
+}
+
+.permissions--permissions--group--permissions {
+  display: inline-block;
+  width: $permissions-width;
+}
+
+.permissions--group--permission {
+  display: inline-block;
+  width: $permission-width;
+  float: left;
+
+  &.select-column {
+    cursor: pointer;
+  }
+}
