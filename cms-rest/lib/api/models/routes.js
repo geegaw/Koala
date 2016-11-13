@@ -15,7 +15,7 @@ ModelRouter.post("/:model", function(req, res){
 });
 
 ModelRouter.put("/:model/:id", function(req, res){
-    modelController.put(res, req.params.model, req.params.id,req.body, req.session.user);
+    modelController.put(res, req.params.model, req.params.id, req.body, req.session.user);
 });
 
 ModelRouter.delete("/:model/:id", function(req, res){

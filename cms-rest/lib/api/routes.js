@@ -7,17 +7,17 @@ let ApiRouter = express.Router();
 
 ApiRouter.use("/model", require("./models/routes"));
 
-ApiRouter.get("/*", function(){
-    Responses.pageNotFound();
+ApiRouter.get("/*", function(req, res){
+    Responses.pageNotFound(res);
 });
-ApiRouter.post("/*", function(){
-    Responses.pageNotFound();
+ApiRouter.post("/*", function(req, res){
+    Responses.pageNotFound(res);
 });
-ApiRouter.put("/*", function(){
-    Responses.pageNotFound();
+ApiRouter.put("/*", function(req, res){
+    Responses.pageNotFound(res);
 });
-ApiRouter.delete("/*", function(){
-    Responses.pageNotFound();
+ApiRouter.delete("/*", function(req, res){
+    Responses.pageNotFound(res);
 });
 
 module.exports = ApiRouter;
