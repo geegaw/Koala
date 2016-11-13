@@ -1,6 +1,6 @@
 "use strict";
 
-const FormLayoutView = require("../../elements/form/formLayoutView");
+const FormLayoutView = require("../../../elements/form/formLayoutView");
 const RoleView = require("./roleView");
 
 const RolesFormView = FormLayoutView.extend({

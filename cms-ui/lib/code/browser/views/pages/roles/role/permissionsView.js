@@ -2,7 +2,7 @@
 
 const Marionette = require("backbone.marionette");
 
-const Permission = require("../../../models/Permission");
+const Permission = require("../../../../models/Permission");
 
 const CRUD = ["read", "create", "update", "delete"];
 

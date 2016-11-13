@@ -1,6 +1,5 @@
 "use strict";
 
-const Backbone = require("backbone");
 const Marionette = require("backbone.marionette");
 
 const MainNavView = Marionette.View.extend({
@@ -27,14 +26,7 @@ const MainNavView = Marionette.View.extend({
 
     events: {
         "click @ui.hamburger": "toggleNav",
-        "click @ui.link": "navigate",
-    },
-
-    navigate: function(evt){
-        let url = evt.currentTarget.getAttribute("href");
-        Backbone.history.navigate(url, {trigger: true});
-        this.toggleNav();
-        return false;
+        "click @ui.link": "toggleNav",
     },
 
     toggleNav: function(){

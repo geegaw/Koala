@@ -1,9 +1,6 @@
 "use strict";
 
-const Backbone = require("backbone");
 const Marionette = require("backbone.marionette");
-const DISPLAY_TIME = 3000;
-const ANIMATION_SPEED = 1000;
 
 const ComfirmationView = Marionette.View.extend({
     template: "elements/confirmation",

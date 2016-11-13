@@ -2,8 +2,9 @@
 
 const Marionette = require("backbone.marionette");
 
-const RolesView = require("../views/pages/roles/rolesView");
-const RolesFormView = require("../views/pages/roles/rolesFormView");
+const RolesView = require("../views/pages/roles/roles/rolesView");
+const RolesFormView = require("../views/pages/roles/role/rolesFormView");
+const Roles = require("../collections/Roles");
 const Role = require("../models/Role");
 
 const HomeView = require("../views/pages/homeView");
@@ -24,7 +25,10 @@ const KoalaRouter = Marionette.AppRouter.extend({
     },
 
     roles: function() {
-        this.triggerMethod("load:view", new RolesView());
+        this.triggerMethod("load:view", new RolesView({
+            collection: new Roles(),
+            label: "Roles",
+        }));
     },
 
     editRole: function(id) {
