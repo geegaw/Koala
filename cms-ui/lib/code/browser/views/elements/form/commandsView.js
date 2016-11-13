@@ -2,6 +2,9 @@
 
 const Backbone = require("backbone");
 const Marionette = require("backbone.marionette");
+
+const ConfirmationView = require("../confirmationView");
+
 const DISPLAY_TIME = 3000;
 const ANIMATION_SPEED = 1000;
 
@@ -13,6 +16,7 @@ const CommandsView = Marionette.View.extend({
     initialize: function(options={}) {
         this.options.displayTime = options.displayTime || DISPLAY_TIME;
         this.options.animationSpeed = options.animationSpeed || ANIMATION_SPEED;
+        this.options.returnTo = options.returnTo || "/home";
     },
 
     templateContext: function() {
@@ -24,12 +28,14 @@ const CommandsView = Marionette.View.extend({
     ui: {
         save: ".save",
         cancel: ".cancel",
+        delete: ".delete",
         notice: ".notice-area",
     },
 
     events: {
         "click @ui.save": "save",
         "click @ui.cancel": "cancel",
+        "click @ui.delete": "delete",
     },
 
     modelEvents: {
@@ -56,6 +62,28 @@ const CommandsView = Marionette.View.extend({
     },
 
     cancel: function() {
+        Backbone.history.navigate(this.getOption("returnTo"), {trigger: true});
+    },
+
+    delete: function() {
+        let confirmation = new ConfirmationView({
+            question: "Are you sure you want to delete " + (this.model.get("name") || "me") + "?",
+        });
+        this.listenTo(confirmation, "user:confirmed", this.deleteModel.bind(this));
+        confirmation.render();
+        this.$el.append(confirmation.$el);
+
+    },
+
+    deleteModel: function() {
+        this.resetNotice();
+        this.getUI("save").prop("disabled", true);
+        this.getUI("notice").addClass("loading");
+
+        let self = this;
+        this.model.destroy().done(function(){
+            Backbone.history.navigate(self.getOption("returnTo"), {trigger: true});
+        }).fail(this.notifyError.bind(this));
     },
 
     resetNotice: function(){

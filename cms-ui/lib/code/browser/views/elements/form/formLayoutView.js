@@ -38,6 +38,7 @@ const FormLayoutView = Marionette.View.extend({
     onRender: function() {
         this.getRegion("commands").show(new CommandsView({
             model: this.model,
+            returnTo: this.getOption("returnTo"),
         }));
     },
 
