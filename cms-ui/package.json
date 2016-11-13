@@ -17,6 +17,7 @@
     "express-session": "~1.14",
     "font-awesome": "~4.7",
     "gulp": "~3.9",
+    "gulp-autoprefixer": "~3.1",
     "gulp-hogan-compile": "~1.0",
     "gulp-sass": "~2.3",
     "hogan": "~1.0",

@@ -2,6 +2,7 @@
 
 const browserify = require("browserify");
 const gulp = require("gulp");
+const autoprefixer = require("gulp-autoprefixer");
 const compiler = require("gulp-hogan-compile");
 const jasmine = require("gulp-jasmine");
 const jsdoc = require("gulp-jsdoc3");
@@ -62,6 +63,7 @@ gulp.task("sass", function () {
             ],
         }).on("error", sass.logError))
         .pipe(sourcemaps.write())
+        .pipe(autoprefixer())
         .pipe(gulp.dest(PUBLIC_CSS));
 });
 
@@ -100,6 +102,10 @@ gulp.task("build:templates", function() {
         .pipe(gulp.dest("./dist/templates"));
 });
 
+gulp.task("build:templates:watch", function () {
+    gulp.watch(TEMPLATES, ["build:templates"]);
+});
+
 gulp.task("start", function() {
     nodemon({
         script: "server.js",
@@ -115,5 +121,5 @@ gulp.task("doc", function () {
 
 gulp.task("build", ["fontawesome", "build:templates", "build:js", "sass"]);
 
-gulp.task("watch", ["sass:watch", "build:watch"]);
+gulp.task("watch", ["sass:watch", "build:watch", "build:templates:watch"]);
 gulp.task("default", ["build", "watch", "start"]);
