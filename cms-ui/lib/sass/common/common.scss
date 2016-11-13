@@ -6,3 +6,35 @@
 .hide {
   display: none;
 }
+
+.notice-area {
+  display: inline-block;
+
+  &:empty{
+    display: none;
+  }
+}
+
+.success {
+  color: $success-color;
+}
+
+.error {
+  color: $error-color;
+}
+
+.warning {
+  color: $warning-color;
+}
+
+.loading {
+  @extend .fa-spin;
+  @extend .fa-circle-o-notch;
+  font-size: 1rem;
+  width: 1rem;
+  height: 1rem;
+
+  &::before {
+    font-family: $fontawesome;
+  }
+}
