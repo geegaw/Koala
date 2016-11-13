@@ -46,7 +46,7 @@ class MongoModel {
     /**
      * use to format a query for a specific object
      * @param {Object} query
-     * @retunrs {Object}
+     * @returns {Object}
      */
     formatQuery(query) {
         return query;

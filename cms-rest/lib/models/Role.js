@@ -47,7 +47,7 @@ class Role extends MongoModel{
     /**
      * search keyword in name only
      * @param {Object} query
-     * @retunrs {Object}
+     * @returns {Object}
      */
     formatQuery(query){
         if (query.keyword){
