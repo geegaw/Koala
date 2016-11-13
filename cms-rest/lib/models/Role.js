@@ -44,6 +44,23 @@ class Role extends MongoModel{
         return formatted;
     }
 
+    /**
+     * search keyword in name only
+     * @param {Object} query
+     * @returns {Object}
+     */
+    formatQuery(query){
+        if (query.keyword){
+            query.name = {
+                "$regex": query.keyword,
+                "$options": "g",
+            };
+        }
+        delete query.keyword;
+
+        return query;
+    }
+
 }
 
 module.exports = Role;
