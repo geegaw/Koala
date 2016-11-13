@@ -37,9 +37,6 @@ class Session extends MongoModel{
         });
     }
 
-
-
-
 }
 
 module.exports = Session;
