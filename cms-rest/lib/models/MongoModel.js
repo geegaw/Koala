@@ -1,5 +1,7 @@
 "use strict";
 
+const ObjectID = require("mongodb").ObjectID;
+
 let mongo = require("../db/Mongo");
 
 /**
@@ -56,7 +58,7 @@ class MongoModel {
         if (!this.id){
             throw new Error("no id is present");
         }
-        return this.find({_id: this.id});
+        return this.find({_id: ObjectID(this.id)});
     }
 
     /**

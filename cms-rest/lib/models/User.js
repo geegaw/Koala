@@ -25,6 +25,18 @@ class User extends MongoModel{
     }
 
     /**
+     * Handles special case of root
+     * @returns {Promise|Boolean}
+     */
+    fetch() {
+        if (this.id === config.root.username) {
+            this.data.username = config.root.username;
+            return Promise.resolve(true);
+        }
+        return super.fetch();
+    }
+
+    /**
      * Looks up a user by usersname and sets the model if found
      * @returns {Promise|Boolean}
      */
