@@ -7,10 +7,17 @@ const PermissionsView = require("./permissionsView");
 const TextView = require("../../elements/form/textView");
 const TextareaView = require("../../elements/form/textareaView");
 
-
 const RolesFormView = Marionette.View.extend({
     template: "pages/roles/roles-form",
     className: "koala-container roles--form",
+
+    initialize: function(){
+        if (this.model.id){
+            this.model
+                .fetch()
+                .done(this.render.bind(this));
+        }
+    },
 
     templateContext: function() {
         return {
@@ -48,6 +55,7 @@ const RolesFormView = Marionette.View.extend({
 
         this.getRegion("commands").show(new CommandsView({
             model: this.model,
+            delete: Boolean(this.model.id),
         }));
     },
 

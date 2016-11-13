@@ -32,6 +32,11 @@ const Role = Backbone.Model.extend({
         });
     },
 
+    parse: function(data) {
+        data.permissions = new Permissions(data.permissions, {parse: true});
+        return data;
+    },
+
 });
 
 module.exports = Role;

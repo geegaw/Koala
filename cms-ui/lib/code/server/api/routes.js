@@ -18,19 +18,19 @@ APIRouter.get("/users/current", function(req, res) {
 });
 
 APIRouter.get("*", function(req, res) {
-    return addSessionAndProxy(req, res, "GET");
+    return addSessionAndProxy(req, res, "get");
 });
 
 APIRouter.post("*", function(req, res) {
-    return addSessionAndProxy(req, res, "POST");
+    return addSessionAndProxy(req, res, "post");
 });
 
 APIRouter.put("*", function(req, res) {
-    return addSessionAndProxy(req, res, "PUT");
+    return addSessionAndProxy(req, res, "put");
 });
 
 APIRouter.delete("*", function(req, res) {
-    return addSessionAndProxy(req, res, "DELETE");
+    return addSessionAndProxy(req, res, "delete");
 });
 
 module.exports = APIRouter;

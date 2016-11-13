@@ -15,6 +15,12 @@ const Permission = Backbone.Model.extend({
         return this.get("permission");
     },
 
+    parse: function(data) {
+        return {
+            permission: data
+        };
+    },
+
 });
 
 module.exports = Permission;
