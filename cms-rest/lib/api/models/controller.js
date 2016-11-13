@@ -33,6 +33,7 @@ class ModelsController{
     }
 
     _save (res, Model, data) {
+        delete data.sessionInfo;
         let model = new Model(data);
         return model.save().then(function(success){
             if (success) {
