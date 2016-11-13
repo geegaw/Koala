@@ -8,7 +8,7 @@ let APIRouter = express.Router();
 function addSessionAndProxy(req, res, method) {
     req.body.sessionInfo = {
         userId: req.session.user.id,
-        sessionId: req.session.id,
+        sessionId: req.session.sessionId,
     };
     return proxy(req, res, method);
 }
