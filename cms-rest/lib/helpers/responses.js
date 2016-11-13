@@ -15,6 +15,7 @@ class Responses {
     }
 
     static error(res, msg) {
+        console.error(msg);
         res.sendStatus(500).send(msg);
     }
 }

@@ -7,19 +7,19 @@ let ModelRouter = express.Router();
 let modelController = new ModelController();
 
 ModelRouter.get("/:model/:id", function(req, res){
-    modelController.get(res, req.model, req.id, req.session.userId);
+    modelController.get(res, req.params.model, req.params.id, req.session.user);
 });
 
 ModelRouter.post("/:model", function(req, res){
-    modelController.post(res, req.model, req.body, req.session.userId);
+    modelController.post(res, req.params.model, req.body, req.session.user);
 });
 
 ModelRouter.put("/:model/:id", function(req, res){
-    modelController.put(res, req.model, req.id,req.body,  req.session.userId);
+    modelController.put(res, req.params.model, req.params.id,req.body, req.session.user);
 });
 
 ModelRouter.delete("/:model/:id", function(req, res){
-    modelController.delete(res, req.model, req.id, req.session.userId);
+    modelController.delete(res, req.params.model, req.params.id, req.session.user);
 });
 
 module.exports = ModelRouter;

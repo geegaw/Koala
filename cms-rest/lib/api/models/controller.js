@@ -17,14 +17,14 @@ class ModelsController{
     }
 
     _verifyModel (res, modelName, permission, user ) {
-        let Model = this.getModel(modelName);
+        let Model = this._getModel(modelName);
         if (Model === false){
             Responses.error(res, `Unkown modelName: ${modelName}`);
             return false;
         }
 
         let model = new Model();
-        if (!this.authorize(model, user, "delete")) {
+        if (!this._authorize(model, user, "delete")) {
             Responses.unauthorized(res);
             return false;
         }
