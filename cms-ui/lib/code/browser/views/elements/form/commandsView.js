@@ -1,5 +1,6 @@
 "use strict";
 
+const Backbone = require("backbone");
 const Marionette = require("backbone.marionette");
 const DISPLAY_TIME = 3000;
 const ANIMATION_SPEED = 1000;
@@ -33,6 +34,15 @@ const CommandsView = Marionette.View.extend({
         "click @ui.cancel": "cancel",
     },
 
+    modelEvents: {
+        "change:id": "updateUrl",
+    },
+
+    updateUrl: function() {
+        let url = window.location.pathname.replace("new", this.model.id);
+        Backbone.history.navigate(url, {replace: true});
+    },
+
     save: function() {
         if (this.model.isValid()) {
             this.getUI("save").prop("disabled", true);
@@ -49,10 +59,14 @@ const CommandsView = Marionette.View.extend({
     cancel: function() {
     },
 
-    notifySuccess: function(){
+    notifySuccess: function(result){
+        if (!this.model.id && result.id){
+            this.model.set("id", result.id);
+        }
+
         let self = this;
         this.getUI("notice").removeClass().addClass("success").html("success");
-        setTimeout(function(){
+        setTimeout(function() {
             self.getUI("notice").fadeOut(self.getOption("animationSpeed"));
         }, self.getOption("displayTime"));
     },
