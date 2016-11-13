@@ -1,6 +1,5 @@
 "use strict";
 
-const Marionette = require("backbone.marionette");
 const SearchView = require("../../../elements/search/searchView");
 const RolesCollectionView = require("./rolesCollectionView");
 
