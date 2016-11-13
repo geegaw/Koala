@@ -15,7 +15,7 @@ const RolesFormView = Marionette.View.extend({
         if (this.model.id){
             this.model
                 .fetch()
-                .done(this.render.bind(this))
+                .done(this.render.bind(this));
         }
     },
 
