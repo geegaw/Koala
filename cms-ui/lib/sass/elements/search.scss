@@ -1,0 +1,26 @@
+.search-item {
+  width: 100%;
+  padding: .5rem;
+
+  &:nth-child(odd){
+    background: darken($koala-background-color, 10%);
+  }
+}
+
+.search-display {
+  display: inline-block;
+  width: auto;
+}
+
+.search-delete {
+  border: none;
+  background: transparent;
+  float: right;
+
+  i {
+    @extend .fa-trash-o;
+    font-family: $fontawesome;
+  }
+}
+
+

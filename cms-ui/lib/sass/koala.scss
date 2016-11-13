@@ -1,20 +1,4 @@
 @import "config/index";
 @import "common/index";
-
-html, body {
-  width: 100%;
-  background: $koala-alt-background-color;
-  color: $koala-primary-color;
-}
-
-a {
-  text-decoration: none;
-  color: $koala-primary-color;
-}
-
-.main-content {
-  background: $koala-background-color;
-  padding: 2rem 0;
-}
-
+@import "elements/index";
 @import "pages/index";

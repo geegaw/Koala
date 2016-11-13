@@ -11,7 +11,7 @@ const SearchView = Marionette.View.extend({
     regions: {
         params: ".search-parameters",
         results: ".search-results",
-        pagination: "search-pagination",
+        pagination: ".search-pagination",
     },
 
     ui: {
