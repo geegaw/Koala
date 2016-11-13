@@ -4,10 +4,11 @@ const rp = require("request-promise");
 const config = require("../../../../config");
 
 function proxy(req, res, method) {
+
     let options = {
         method: method,
         uri: config.api.host + req.path,
-        body: req.body,
+        body: Object.assign({}, req.body, req.query),
         json: true
     };
 

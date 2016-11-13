@@ -3,8 +3,8 @@
 const Marionette = require("backbone.marionette");
 
 const PermissionsView = require("./permissionsView");
-const TextView = require("../../elements/form/textView");
-const TextareaView = require("../../elements/form/textareaView");
+const TextView = require("../../../elements/form/textView");
+const TextareaView = require("../../../elements/form/textareaView");
 
 const RoleView = Marionette.View.extend({
     template: "pages/roles/roles-form",
