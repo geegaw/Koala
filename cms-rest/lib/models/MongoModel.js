@@ -5,6 +5,8 @@ const ObjectID = require("mongodb").ObjectID;
 
 let mongo = require("../db/Mongo");
 
+const NUM_RESULTS = 15;
+
 /**
  * Class MongoModel
  * Main class that interacts with the database
@@ -28,6 +30,26 @@ class MongoModel {
         }
         this._db = mongo.collection(this.collection);
     }
+
+    /**
+     * Searchs the collection by the query passed
+     * returns an array of the model searched for
+     * @param {Object} query
+     * @returns {Array}
+     */
+    search(query) {
+        let limit = query.limit || NUM_RESULTS;
+        delete query.limit;
+        return this._db.find(query).limit(parseInt(limit)).toArray().then(this.formatSearchResults.bind(this));
+    }
+
+    /**
+     * function to format the search results per model
+     * this function must be defined in the child
+     * @param {Array} [results=[]]]
+     * @returns {Array} of Objects
+     */
+    formatSearchResults(results = []){}
 
     /**
      * Searchs the collection by the query passed

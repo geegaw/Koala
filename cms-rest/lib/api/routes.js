@@ -6,6 +6,7 @@ const Responses = require("../helpers/responses");
 let ApiRouter = express.Router();
 
 ApiRouter.use("/model", require("./models/routes"));
+ApiRouter.use("/search", require("./search/routes"));
 
 ApiRouter.get("/*", function(req, res){
     Responses.pageNotFound(res);
