@@ -17,9 +17,7 @@ const CommandsView = Marionette.View.extend({
 
     templateContext: function() {
         return {
-            save: this.getOption("save") !== false,
             cancel: this.getOption("cancel") !== false,
-            delete: Boolean(this.getOption("delete")),
         };
     },
 
@@ -44,9 +42,10 @@ const CommandsView = Marionette.View.extend({
     },
 
     save: function() {
+        this.resetNotice();
         if (this.model.isValid()) {
             this.getUI("save").prop("disabled", true);
-            this.getUI("notice").show().removeClass().addClass("loading");
+            this.getUI("notice").addClass("loading");
             this.model.save()
                 .done(this.notifySuccess.bind(this))
                 .fail(this.notifyError.bind(this))
@@ -59,20 +58,31 @@ const CommandsView = Marionette.View.extend({
     cancel: function() {
     },
 
+    resetNotice: function(){
+        this.getUI("notice").stop().removeClass().html("").show();
+    },
+
     notifySuccess: function(result){
+        let needsReRender = false;
         if (!this.model.id && result.id){
             this.model.set("id", result.id);
+            needsReRender = true;
         }
 
         let self = this;
-        this.getUI("notice").removeClass().addClass("success").html("success");
+        this.resetNotice();
+        this.getUI("notice").addClass("success").html("success");
         setTimeout(function() {
             self.getUI("notice").fadeOut(self.getOption("animationSpeed"));
+            if (needsReRender) {
+                self.render();
+            }
         }, self.getOption("displayTime"));
     },
 
     notifyError: function(jqXHR, textStatus, errorThrown){
-        this.getUI("notice").removeClass().addClass("error").html("Error: " + textStatus);
+        this.resetNotice();
+        this.getUI("notice").addClass("error").html("Error: " + textStatus);
         console.error(jqXHR, textStatus, errorThrown);
     },
 

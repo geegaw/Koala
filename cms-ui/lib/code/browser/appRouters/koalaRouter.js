@@ -30,12 +30,14 @@ const KoalaRouter = Marionette.AppRouter.extend({
     editRole: function(id) {
         this.triggerMethod("load:view", new RolesFormView({
             model: new Role({id: id}),
+            label: "Role",
         }));
     },
 
     newRole: function() {
         this.triggerMethod("load:view", new RolesFormView({
             model: new Role(),
+            label: "Role",
         }));
     },
 
