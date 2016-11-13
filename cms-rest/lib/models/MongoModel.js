@@ -1,5 +1,6 @@
 "use strict";
 
+const _ = require("lodash");
 const ObjectID = require("mongodb").ObjectID;
 
 let mongo = require("../db/Mongo");
@@ -126,14 +127,17 @@ class MongoModel {
      * @private
      */
     _update(data) {
-        return this._db.updateOne({_id: this.id}, data);
+        return this._db.updateOne({_id: ObjectID(this.id)}, data).then(function(doc){
+            let result = _.get(doc, "result.nModified", 0) === 1;
+            return Promise.resolve(result);
+        });
     }
 
     /**
      * Manipulate the model after its been saved
      */
-    afterSave(){
-        return;
+    afterSave(result){
+        return result;
     }
 
     /**
@@ -151,7 +155,7 @@ class MongoModel {
     delete() {
         let self = this;
         return this.beforeDelete().then(function(){
-            return self._db.deleteOne({_id: self.id});
+            return self._db.deleteOne({_id: ObjectID(self.id)});
         }).then(this.afterDelete.bind(this));
     }
 

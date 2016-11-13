@@ -24,7 +24,7 @@ class ModelsController{
         }
 
         let model = new Model();
-        if (!this._authorize(model, user, "delete")) {
+        if (!this._authorize(model, user, permission)) {
             Responses.unauthorized(res);
             return false;
         }
@@ -34,10 +34,14 @@ class ModelsController{
 
     _save (res, Model, data) {
         let model = new Model(data);
-        return model.save().then(function(){
-            Responses.json(res, {
-                id: model.id,
-            });
+        return model.save().then(function(success){
+            if (success) {
+                Responses.json(res, {
+                    id: model.id,
+                });
+            } else {
+                Responses.error(res);
+            }
         }).catch(function(error){
             Responses.error(res, error);
         });
@@ -62,7 +66,8 @@ class ModelsController{
         }
     }
 
-    put (res, modelName, data, user) {
+    put (res, modelName, id, data, user) {
+        data.id = id;
         const Model = this._verifyModel(res, modelName, "update", user);
         if (Model) {
             return this._save(res, Model, data);
