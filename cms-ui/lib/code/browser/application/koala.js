@@ -10,17 +10,20 @@ const KoalaApp = Marionette.Application.extend({
 
     region: "main",
 
-    onBeforeStart: function() {
+    initialize: function() {
         this.user = new User({
             id: "current",
         });
-        this.user.fetch();
     },
 
     onStart: function() {
-        this.getRegion().show(new KoalaLayoutView({
-            user: this.user,
-        }));
+        this.user.fetch().then(this.begin.bind(this));
+    },
+
+    begin: function() {
+        window.userCan = this.user.can.bind(this.user);
+
+        this.getRegion().show(new KoalaLayoutView());
 
         this.router = new KoalaRouter();
         this.listenTo(this.router, "load:view", this.loadView);

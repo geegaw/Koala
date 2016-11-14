@@ -31,7 +31,6 @@ const ComfirmationView = Marionette.View.extend({
     },
 
     closeAndTrigger: function(action) {
-        console.log(action);
         this.trigger("user:" + action);
         this.destroy();
     },

@@ -4,6 +4,10 @@ const Backbone = require("backbone");
 
 const User = Backbone.Model.extend({
 
+    defaults: {
+        permissions: [],
+    },
+
     url: function() {
         let url = "/api/users";
         if (this.id === "current") {
@@ -12,6 +16,13 @@ const User = Backbone.Model.extend({
             url += "/" + this.id;
         }
         return url;
+    },
+
+    can: function(permission) {
+        if (this.id === "root") {
+            return true;
+        }
+        return this.get("permissions").indexOf(permission) >= 0;
     },
 
 });
