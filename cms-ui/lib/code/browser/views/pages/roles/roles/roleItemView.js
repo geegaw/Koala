@@ -31,7 +31,7 @@ const RoleItemView = Marionette.View.extend({
         this.model.destroy().fail(this.notifyError.bind(this));
     },
 
-    notifyError: function(jqXHR, textStatus, errorThrown){
+    notifyError: function(jqXHR, textStatus, errorThrown) {
         this.getUI("delete").removelass("loading");
         console.error(jqXHR, textStatus, errorThrown);
     },

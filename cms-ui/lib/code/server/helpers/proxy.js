@@ -14,7 +14,7 @@ function proxy(req, res, method) {
 
     return rp[method](options).then(function(result) {
         res.send(JSON.stringify(result));
-    }).catch(function (error) {
+    }).catch(function(error) {
         console.error(error);
         res.sendStatus(500);
     });

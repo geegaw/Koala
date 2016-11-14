@@ -10,9 +10,7 @@ const Role = require("../models/Role");
 const HomeView = require("../views/pages/homeView");
 const PageNotFoundView = require("../views/pages/pageNotFoundView");
 
-
 const KoalaRouter = Marionette.AppRouter.extend({
-
 
     routes: {
 
@@ -32,14 +30,16 @@ const KoalaRouter = Marionette.AppRouter.extend({
     },
 
     editRole: function(id) {
-        this.role(new Role({id: id}));
+        this.role(new Role({
+            id: id
+        }));
     },
 
     newRole: function() {
         this.role(new Role());
     },
 
-    role: function(model){
+    role: function(model) {
         this.triggerMethod("load:view", new RolesFormView({
             model: model,
             label: "Role",

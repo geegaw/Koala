@@ -10,7 +10,7 @@ const KoalaApp = Marionette.Application.extend({
 
     region: "main",
 
-    onBeforeStart: function(){
+    onBeforeStart: function() {
         this.user = new User({
             id: "current",
         });
@@ -30,7 +30,7 @@ const KoalaApp = Marionette.Application.extend({
         });
     },
 
-    loadView: function(View, args){
+    loadView: function(View, args) {
         this.getView().loadPage(View, args);
     },
 

@@ -27,7 +27,7 @@ const SearchView = Marionette.View.extend({
 
     initialize: function() {
         this.collection.fetch({
-            data:{
+            data: {
                 limit: MAX_RESULTS,
             },
         }).done(this.render.bind(this));
@@ -40,7 +40,7 @@ const SearchView = Marionette.View.extend({
     search: function() {
         let keyword = this.getUI("query").val().trim();
         this.collection.fetch({
-            data:{
+            data: {
                 limit: MAX_RESULTS,
                 query: {
                     keyword: keyword,

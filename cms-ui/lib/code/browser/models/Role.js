@@ -11,16 +11,16 @@ const Role = Backbone.Model.extend({
         permissions: new Permissions(),
     },
 
-    url: function(){
-        return  "/api/model/role" + (this.id ? "/" + this.id : "");
+    url: function() {
+        return "/api/model/role" + (this.id ? "/" + this.id : "");
     },
 
     validate: function(attrs) {
-        if (attrs.name.trim().length === 0){
+        if (attrs.name.trim().length === 0) {
             return "name can not be empty";
         }
 
-        if (attrs.permissions.toJSON().length === 0){
+        if (attrs.permissions.toJSON().length === 0) {
             return "you must select at least one permission";
         }
     },
@@ -33,7 +33,9 @@ const Role = Backbone.Model.extend({
     },
 
     parse: function(data) {
-        data.permissions = new Permissions(data.permissions, {parse: true});
+        data.permissions = new Permissions(data.permissions, {
+            parse: true
+        });
         return data;
     },
 

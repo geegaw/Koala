@@ -9,15 +9,15 @@ let redirectedFrom = null;
 
 $("form").submit(function() {
     $(".invalid").hide();
-    if (validateForm()){
+    if (validateForm()) {
         let data = {
             username: $(".username").val().trim(),
             password: hashify($(".password").val().trim()),
         };
 
-        $.post("/login", data, "json").done(function(){
-           window.location = redirectedFrom || "/home";
-        }).fail(function(){
+        $.post("/login", data, "json").done(function() {
+            window.location = redirectedFrom || "/home";
+        }).fail(function() {
             $(".invalid").show();
         });
     }

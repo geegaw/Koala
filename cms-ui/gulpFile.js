@@ -8,6 +8,7 @@ const jasmine = require("gulp-jasmine");
 const jsdoc = require("gulp-jsdoc3");
 const jshint = require("gulp-jshint");
 const nodemon = require("gulp-nodemon");
+const prettify = require("gulp-jsbeautifier");
 const sass = require("gulp-sass");
 const sourcemaps = require("gulp-sourcemaps");
 const source = require("vinyl-source-stream");
@@ -41,13 +42,25 @@ gulp.task("test:unit", function(){
     }));
 });
 
+gulp.task("beautify:js", function() {
+    return gulp.src(ALL_JS, {
+            base: "./"
+        })
+        .pipe(prettify({
+            config: __dirname + "/tests/configs/jsbeautifyrc.json",
+        }))
+        .pipe(gulp.dest("."));
+});
+
 gulp.task("lint:js", function(){
     return gulp.src(ALL_JS)
-        .pipe(jshint())
+        .pipe(jshint({
+            config: __dirname + "/tests/configs/.jshintrc",
+        }))
         .pipe(jshint.reporter("default"));
 });
 
-gulp.task("test", ["lint:js", "test:unit"]);
+gulp.task("test", ["beautify:js", "lint:js", "test:unit"]);
 
 gulp.task("fontawesome", function(){
     return gulp.src("./node_modules/font-awesome/fonts/*")
@@ -114,7 +127,7 @@ gulp.task("start", function() {
 });
 
 gulp.task("doc", function () {
-    var docConfig = require("./jsdoc.json");
+    var docConfig = require("./tests/configs/jsdoc.json");
     gulp.src(["README.md", "./lib/**/*.js"], {read: false})
         .pipe(jsdoc(docConfig));
 });

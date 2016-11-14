@@ -26,14 +26,16 @@ const KoalaView = Marionette.View.extend({
         this.getRegion("footer").show(new FooterView());
     },
 
-    loadPage: function(view){
-        view.options.user =  this.getOption("user");
+    loadPage: function(view) {
+        view.options.user = this.getOption("user");
         this.getRegion("main").show(view);
     },
 
-    navigate: function(evt){
+    navigate: function(evt) {
         let url = evt.currentTarget.getAttribute("href");
-        Backbone.history.navigate(url, {trigger: true});
+        Backbone.history.navigate(url, {
+            trigger: true
+        });
         return false;
     },
 
