@@ -5,7 +5,7 @@ const Client = require("mongodb").MongoClient;
 
 const mongo = {
     client: Client,
-    connect: function(){
+    connect: function() {
         return mongo.client.connect(config.db.host).then(function(db) {
             mongo.db = db;
         });
@@ -13,7 +13,7 @@ const mongo = {
     collection: function(collectionName) {
         return mongo.db.collection(collectionName);
     },
-    close: function(){
+    close: function() {
         return mongo.db.close();
     }
 };

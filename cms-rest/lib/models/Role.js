@@ -7,7 +7,7 @@ const MongoModel = require("./MongoModel");
  * model and utitliy methods for a role model
  * @extends MongoModel
  */
-class Role extends MongoModel{
+class Role extends MongoModel {
 
     /**
      * Sets the collection to roles
@@ -15,7 +15,7 @@ class Role extends MongoModel{
      */
     constructor(options = {}) {
         options.collection = "roles";
-        options.permissions =  options.permissions || [];
+        options.permissions = options.permissions || [];
         super(options);
     }
 
@@ -35,7 +35,7 @@ class Role extends MongoModel{
      */
     formatSearchResults(results) {
         let formatted = [];
-        results.forEach(function(role){
+        results.forEach(function(role) {
             formatted.push({
                 id: role._id,
                 name: role.name,
@@ -49,8 +49,8 @@ class Role extends MongoModel{
      * @param {Object} query
      * @returns {Object}
      */
-    formatQuery(query){
-        if (query.keyword){
+    formatQuery(query) {
+        if (query.keyword) {
             query.name = {
                 "$regex": query.keyword,
                 "$options": "g",

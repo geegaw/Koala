@@ -8,13 +8,13 @@ const Session = require("../models/Session");
 
 let AuthenticationRouter = express.Router();
 
-AuthenticationRouter.post("/login", function(req, res){
+AuthenticationRouter.post("/login", function(req, res) {
     let post = req.body;
-    if (post.username === config.root.username &&  post.password === config.root.password){
+    if (post.username === config.root.username && post.password === config.root.password) {
         let session = new Session({
             userId: "root"
         });
-        session.save().then(function(){
+        session.save().then(function() {
             Responses.json(res, {
                 user: {
                     id: "root",
@@ -25,7 +25,10 @@ AuthenticationRouter.post("/login", function(req, res){
         });
     } else {
         let user = new User();
-        user.authenticate({username: post.username, password: post.password}).then(function(valid) {
+        user.authenticate({
+            username: post.username,
+            password: post.password
+        }).then(function(valid) {
             if (valid) {
                 let session = new Session({
                     data: {
@@ -47,7 +50,7 @@ AuthenticationRouter.post("/login", function(req, res){
     }
 });
 
-AuthenticationRouter.post("/logout", function(req, res){
+AuthenticationRouter.post("/logout", function(req, res) {
     delete req.session;
     res.sendStatus(200);
 });

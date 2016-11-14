@@ -58,7 +58,7 @@ class MongoModel {
      * @param {Array} [results=[]]]
      * @returns {Array} of Objects
      */
-    formatSearchResults(results = []){}
+    formatSearchResults(results = []) {}
 
     /**
      * Searchs the collection by the query passed
@@ -68,7 +68,7 @@ class MongoModel {
      */
     find(query) {
         let self = this;
-        return this._db.findOne(query).then(function(result){
+        return this._db.findOne(query).then(function(result) {
             if (!result) {
                 return false;
             }
@@ -87,10 +87,12 @@ class MongoModel {
      * @returns {Boolean}
      */
     fetch() {
-        if (!this.id){
+        if (!this.id) {
             throw new Error("no id is present");
         }
-        return this.find({_id: ObjectID(this.id)});
+        return this.find({
+            _id: ObjectID(this.id)
+        });
     }
 
     /**
@@ -101,7 +103,7 @@ class MongoModel {
         let self = this;
         let data = {};
         let keys = Object.keys(self.data);
-        keys.forEach(function(key){
+        keys.forEach(function(key) {
             let item = self.data[key];
             if (typeof item === "object" && typeof item.toJSON === "function") {
                 data[key] = self.data[key].toJSON();
@@ -124,7 +126,7 @@ class MongoModel {
      * Method to manipulate data before saving
      * @returns {Promise|Object}
      */
-    beforeSave(){
+    beforeSave() {
         return Promise.resolve(this.toDB());
     }
 
@@ -145,7 +147,7 @@ class MongoModel {
      */
     _create(data) {
         let self = this;
-        return this._db.insertOne(data).then(function(item){
+        return this._db.insertOne(data).then(function(item) {
             self.id = item.insertedId;
             return Promise.resolve(true);
         });
@@ -158,7 +160,9 @@ class MongoModel {
      * @private
      */
     _update(data) {
-        return this._db.updateOne({_id: ObjectID(this.id)}, data).then(function(doc){
+        return this._db.updateOne({
+            _id: ObjectID(this.id)
+        }, data).then(function(doc) {
             let result = _.get(doc, "result.nModified", 0) === 1;
             return Promise.resolve(result);
         });
@@ -167,7 +171,7 @@ class MongoModel {
     /**
      * Manipulate the model after its been saved
      */
-    afterSave(result){
+    afterSave(result) {
         return result;
     }
 
@@ -175,7 +179,7 @@ class MongoModel {
      * Manipulate model before deleting
      * @returns {Promise}
      */
-    beforeDelete(){
+    beforeDelete() {
         return Promise.resolve();
     }
 
@@ -185,8 +189,10 @@ class MongoModel {
      */
     delete() {
         let self = this;
-        return this.beforeDelete().then(function(){
-            return self._db.deleteOne({_id: ObjectID(self.id)});
+        return this.beforeDelete().then(function() {
+            return self._db.deleteOne({
+                _id: ObjectID(self.id)
+            });
         }).then(this.afterDelete.bind(this));
     }
 
@@ -198,8 +204,8 @@ class MongoModel {
      * @param {Object} doc
      * @returns {boolean}
      */
-    afterDelete(doc){
-        if (doc.deletedCount === 0){
+    afterDelete(doc) {
+        if (doc.deletedCount === 0) {
             throw new Error("No document deleted");
         } else if (doc.deletedCount > 1) {
             throw new Error("Multiple documents deleted");
@@ -213,11 +219,13 @@ class MongoModel {
      * @param {Sting} field
      * @returns {Promise}
      */
-    expand(Model, field){
+    expand(Model, field) {
         let self = this;
         let promises = [];
-        this.data[field].forEach(function(id, key){
-            let model = new Model({id: id});
+        this.data[field].forEach(function(id, key) {
+            let model = new Model({
+                id: id
+            });
             self.data[field][key] = model;
             promises.push(model.fetch());
         });

@@ -1,7 +1,7 @@
 "use strict";
 
 class Responses {
-    static json(res, payload){
+    static json(res, payload) {
         res.setHeader("Content-Type", "application/json");
         res.send(JSON.stringify(payload));
     }

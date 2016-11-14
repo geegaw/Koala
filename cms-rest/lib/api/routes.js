@@ -8,16 +8,16 @@ let ApiRouter = express.Router();
 ApiRouter.use("/model", require("./models/routes"));
 ApiRouter.use("/search", require("./search/routes"));
 
-ApiRouter.get("/*", function(req, res){
+ApiRouter.get("/*", function(req, res) {
     Responses.pageNotFound(res);
 });
-ApiRouter.post("/*", function(req, res){
+ApiRouter.post("/*", function(req, res) {
     Responses.pageNotFound(res);
 });
-ApiRouter.put("/*", function(req, res){
+ApiRouter.put("/*", function(req, res) {
     Responses.pageNotFound(res);
 });
-ApiRouter.delete("/*", function(req, res){
+ApiRouter.delete("/*", function(req, res) {
     Responses.pageNotFound(res);
 });
 

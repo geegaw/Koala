@@ -7,7 +7,7 @@ const MongoModel = require("./MongoModel");
  * model and utitliy for storing session information
  * @extends MongoModel
  */
-class Session extends MongoModel{
+class Session extends MongoModel {
 
     /**
      * Sets the collection to users
@@ -24,14 +24,16 @@ class Session extends MongoModel{
      * @param {MongoId} sessionId
      * @returns {Boolean}
      */
-    static validate (userId, sessionId) {
-        let validator = new Session({id: sessionId});
-        return validator.fetch().then(function(result){
+    static validate(userId, sessionId) {
+        let validator = new Session({
+            id: sessionId
+        });
+        return validator.fetch().then(function(result) {
             if (!result) {
                 return false;
             }
             return validator.data.userId === userId;
-        }).catch(function(error){
+        }).catch(function(error) {
             console.error(error);
             return false;
         });
