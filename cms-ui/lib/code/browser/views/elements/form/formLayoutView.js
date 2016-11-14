@@ -7,8 +7,8 @@ const FormLayoutView = Marionette.View.extend({
     template: "elements/form/layout",
     className: "koala-form koala-container",
 
-    initialize: function(){
-        if (this.model.id){
+    initialize: function() {
+        if (this.model.id) {
             this.model
                 .fetch()
                 .done(this.render.bind(this));

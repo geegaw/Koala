@@ -13,7 +13,7 @@ const CommandsView = Marionette.View.extend({
     className: "commands",
     tagName: "aside",
 
-    initialize: function(options={}) {
+    initialize: function(options = {}) {
         this.options.displayTime = options.displayTime || DISPLAY_TIME;
         this.options.animationSpeed = options.animationSpeed || ANIMATION_SPEED;
         this.options.returnTo = options.returnTo || "/home";
@@ -44,7 +44,9 @@ const CommandsView = Marionette.View.extend({
 
     updateUrl: function() {
         let url = window.location.pathname.replace("new", this.model.id);
-        Backbone.history.navigate(url, {replace: true});
+        Backbone.history.navigate(url, {
+            replace: true
+        });
     },
 
     save: function() {
@@ -62,7 +64,9 @@ const CommandsView = Marionette.View.extend({
     },
 
     cancel: function() {
-        Backbone.history.navigate(this.getOption("returnTo"), {trigger: true});
+        Backbone.history.navigate(this.getOption("returnTo"), {
+            trigger: true
+        });
     },
 
     delete: function() {
@@ -81,18 +85,20 @@ const CommandsView = Marionette.View.extend({
         this.getUI("notice").addClass("loading");
 
         let self = this;
-        this.model.destroy().done(function(){
-            Backbone.history.navigate(self.getOption("returnTo"), {trigger: true});
+        this.model.destroy().done(function() {
+            Backbone.history.navigate(self.getOption("returnTo"), {
+                trigger: true
+            });
         }).fail(this.notifyError.bind(this));
     },
 
-    resetNotice: function(){
+    resetNotice: function() {
         this.getUI("notice").stop().removeClass().html("").show();
     },
 
-    notifySuccess: function(result){
+    notifySuccess: function(result) {
         let needsReRender = false;
-        if (!this.model.id && result.id){
+        if (!this.model.id && result.id) {
             this.model.set("id", result.id);
             needsReRender = true;
         }
@@ -108,13 +114,13 @@ const CommandsView = Marionette.View.extend({
         }, self.getOption("displayTime"));
     },
 
-    notifyError: function(jqXHR, textStatus, errorThrown){
+    notifyError: function(jqXHR, textStatus, errorThrown) {
         this.resetNotice();
         this.getUI("notice").addClass("error").html("Error: " + textStatus);
         console.error(jqXHR, textStatus, errorThrown);
     },
 
-    ajaxComplete: function(){
+    ajaxComplete: function() {
         this.getUI("save").prop("disabled", false);
     },
 

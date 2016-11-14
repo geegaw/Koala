@@ -29,7 +29,7 @@ AuthenticationRouter.post("*", function(req, res) {
         req.session.user = result.user;
 
         res.sendStatus(200);
-    }).catch(function (error) {
+    }).catch(function(error) {
         console.error(error.toString());
         res.sendStatus(403);
     });

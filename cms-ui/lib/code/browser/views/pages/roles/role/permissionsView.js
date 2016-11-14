@@ -66,12 +66,12 @@ const PermissionsView = Marionette.View.extend({
         let index = $this.index();
         let allChecked = true;
         let self = this;
-        this.$(".permissions--permissions--group--permissions:not(:eq(0))").each(function(){
-            if (!self.$(this).find(".permissions--group--permission:eq(" + index + ") input").is(":checked")){
+        this.$(".permissions--permissions--group--permissions:not(:eq(0))").each(function() {
+            if (!self.$(this).find(".permissions--group--permission:eq(" + index + ") input").is(":checked")) {
                 allChecked = false;
             }
         });
-        this.$(".permissions--permissions--group--permissions:not(:eq(0))").each(function(){
+        this.$(".permissions--permissions--group--permissions:not(:eq(0))").each(function() {
             self.$(this)
                 .find(".permissions--group--permission:eq(" + index + ") input")
                 .prop("checked", !allChecked)
@@ -84,17 +84,17 @@ const PermissionsView = Marionette.View.extend({
         $group.find("input").prop("checked", checked).trigger("change");
     },
 
-    formatPermissions: function(){
+    formatPermissions: function() {
         let permissions = this.permissions;
         let grouped = [];
 
         let keys = Object.keys(permissions);
         let self = this;
-        keys.forEach(function(key){
+        keys.forEach(function(key) {
             grouped.push({
                 label: key,
-                permissions: permissions[key].map(function(value){
-                    value+= "_" + key;
+                permissions: permissions[key].map(function(value) {
+                    value += "_" + key;
                     return {
                         permission: value,
                         checked: Boolean(self.collection.get(value)),

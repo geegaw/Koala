@@ -22,15 +22,15 @@ const ComfirmationView = Marionette.View.extend({
         "click @ui.cancel": "cancel",
     },
 
-    confirm: function(){
+    confirm: function() {
         this.closeAndTrigger("confirmed");
     },
 
-    cancel: function(){
+    cancel: function() {
         this.closeAndTrigger("cancelled");
     },
 
-    closeAndTrigger: function(action){
+    closeAndTrigger: function(action) {
         console.log(action);
         this.trigger("user:" + action);
         this.destroy();

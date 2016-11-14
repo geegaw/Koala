@@ -13,7 +13,7 @@ const HeaderView = Marionette.View.extend({
         userNav: ".user-nav",
     },
 
-    onRender: function(){
+    onRender: function() {
         this.getRegion("mainNav").show(new MainNavView({
             model: this.getOption("user"),
         }));

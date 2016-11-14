@@ -11,14 +11,12 @@ const MainNavView = Marionette.View.extend({
         link: ".nav--item a",
     },
 
-    nav: [
-        {
-            url: "/roles",
-            label: "Roles",
-        },
-    ],
+    nav: [{
+        url: "/roles",
+        label: "Roles",
+    }, ],
 
-    templateContext: function(){
+    templateContext: function() {
         return {
             nav: this.nav,
         };
@@ -29,7 +27,7 @@ const MainNavView = Marionette.View.extend({
         "click @ui.link": "toggleNav",
     },
 
-    toggleNav: function(){
+    toggleNav: function() {
         this.getUI("nav").toggle();
     },
 });
