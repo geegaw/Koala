@@ -4,7 +4,7 @@ let mongo = require("../../../lib/db/Mongo");
 const MongoModel = require("../../../lib/models/MongoModel");
 const MongoTestHelpers = require("../../helpers/mongoTests");
 
-describe("MongoModel", function(){
+describe("MongoModel", function() {
     const collection = "test";
     const data = {
         key1: "value1",
@@ -14,20 +14,20 @@ describe("MongoModel", function(){
     let mongoModel;
     let id;
 
-    it ("throws error if no collection is passed", function(){
-        expect(function(){
+    it("throws error if no collection is passed", function() {
+        expect(function() {
             mongoModel = new MongoModel();
         }).toThrowError("collection is required");
     });
 
-    describe("searching", function(){
+    describe("searching", function() {
 
         beforeEach(function(done) {
-            MongoTestHelpers.connect(mongo).then(function(){
+            MongoTestHelpers.connect(mongo).then(function() {
                 mongoModel = new MongoModel({
                     collection: collection
                 });
-                mongoModel._db.insertOne(data).then(function(item){
+                mongoModel._db.insertOne(data).then(function(item) {
                     id = item.insertedId;
                     delete data._id;
                     done();
@@ -35,44 +35,46 @@ describe("MongoModel", function(){
             });
         });
 
-        afterEach(function(done){
-            mongoModel._db.deleteOne({_id: id}).then(function(){
+        afterEach(function(done) {
+            mongoModel._db.deleteOne({
+                _id: id
+            }).then(function() {
                 mongoModel = null;
                 MongoTestHelpers.close(mongo, done);
             });
         });
 
-        describe(".find", function(){
-            it ("finds data with a query and sets the model", function(done){
+        describe(".find", function() {
+            it("finds data with a query and sets the model", function(done) {
                 mongoModel.find({
                     key1: "value1",
-                }).then(function(){
+                }).then(function() {
                     expect(mongoModel.data).toEqual(data);
                     done();
                 });
             });
 
-            it ("doesnt set data in the model when not found", function(done){
+            it("doesnt set data in the model when not found", function(done) {
                 mongoModel.find({
                     key1: "value2",
-                }).then(function(){
+                }).then(function() {
                     expect(mongoModel.id).toBe(null);
                     done();
                 });
             });
         });
 
-        describe(".fetch", function(){
-            it ("fetches data by its id and sets the model", function(done){
+        describe(".fetch", function() {
+            it("fetches data by its id and sets the model", function(done) {
                 mongoModel.id = id;
-                mongoModel.fetch().then(function(){
+                mongoModel.fetch().then(function() {
                     expect(mongoModel.data).toEqual(data);
                     done();
                 });
             });
 
-            it ("throws an error when no id is set", function(){
-                expect(function(){
+            it("throws an error when no id is set", function() {
+                expect(function() {
                     mongoModel.fetch();
                 }).toThrowError("no id is present");
             });
@@ -80,10 +82,12 @@ describe("MongoModel", function(){
 
     });
 
-    describe(".save", function(){
-        beforeEach(function(done){
-            MongoTestHelpers.connect(mongo).then(function(){
-                mongoModel = new MongoModel(Object.assign({}, data, {collection: collection}));
+    describe(".save", function() {
+        beforeEach(function(done) {
+            MongoTestHelpers.connect(mongo).then(function() {
+                mongoModel = new MongoModel(Object.assign({}, data, {
+                    collection: collection
+                }));
 
                 spyOn(mongoModel, "beforeSave").and.callThrough();
                 spyOn(mongoModel, "toJSON").and.callThrough();
@@ -94,15 +98,17 @@ describe("MongoModel", function(){
             });
         });
 
-        afterEach(function(done){
-            mongoModel._db.deleteOne({_id: mongoModel.id}).then(function(){
+        afterEach(function(done) {
+            mongoModel._db.deleteOne({
+                _id: mongoModel.id
+            }).then(function() {
                 mongoModel = null;
                 MongoTestHelpers.close(mongo, done);
             });
         });
 
-        it ("creates the model in the db when model is new", function(done){
-            mongoModel.save().then(function(){
+        it("creates the model in the db when model is new", function(done) {
+            mongoModel.save().then(function() {
                 expect(mongoModel.beforeSave).toHaveBeenCalled();
                 expect(mongoModel.toJSON).toHaveBeenCalled();
                 expect(mongoModel._create).toHaveBeenCalled();
@@ -111,20 +117,24 @@ describe("MongoModel", function(){
                 expect(mongoModel.data).toEqual(data);
                 expect(mongoModel.id).not.toBe(null);
 
-                mongoModel._db.findOne({_id: mongoModel.id}).then(function(result){
-                    expect(result).toEqual(Object.assign({}, {_id: mongoModel.id}, data));
+                mongoModel._db.findOne({
+                    _id: mongoModel.id
+                }).then(function(result) {
+                    expect(result).toEqual(Object.assign({}, {
+                        _id: mongoModel.id
+                    }, data));
                     done();
                 });
             });
         });
 
-        it ("updates the model in the db when the model already exists", function(done){
-            let expectingData =  {
+        it("updates the model in the db when the model already exists", function(done) {
+            let expectingData = {
                 key1: "changed",
                 key2: "value2",
                 key3: "value3",
             };
-            mongoModel._db.insertOne(expectingData).then(function(item){
+            mongoModel._db.insertOne(expectingData).then(function(item) {
                 id = item.insertedId;
                 delete expectingData._id;
 
@@ -132,7 +142,7 @@ describe("MongoModel", function(){
                 mongoModel.data.key1 = "changed";
                 mongoModel.data.key3 = "value3";
 
-                mongoModel.save().then(function(){
+                mongoModel.save().then(function() {
                     expect(mongoModel.beforeSave).toHaveBeenCalled();
                     expect(mongoModel.toJSON).toHaveBeenCalled();
                     expect(mongoModel._create).not.toHaveBeenCalled();
@@ -141,8 +151,12 @@ describe("MongoModel", function(){
                     expect(mongoModel.data).toEqual(expectingData);
                     expect(mongoModel.id).toBe(id);
 
-                    mongoModel._db.findOne({_id: mongoModel.id}).then(function(result){
-                        expect(result).toEqual(Object.assign({}, {_id: id}, expectingData));
+                    mongoModel._db.findOne({
+                        _id: mongoModel.id
+                    }).then(function(result) {
+                        expect(result).toEqual(Object.assign({}, {
+                            _id: id
+                        }, expectingData));
                         done();
                     });
                 });
@@ -150,10 +164,13 @@ describe("MongoModel", function(){
         });
     });
 
-    describe(".delete", function(){
-        beforeEach(function(done){
-            MongoTestHelpers.connect(mongo).then(function(){
-                mongoModel = new MongoModel(Object.assign({}, {_id: id, collection: collection}, data));
+    describe(".delete", function() {
+        beforeEach(function(done) {
+            MongoTestHelpers.connect(mongo).then(function() {
+                mongoModel = new MongoModel(Object.assign({}, {
+                    _id: id,
+                    collection: collection
+                }, data));
 
                 spyOn(mongoModel, "beforeDelete").and.callThrough();
                 spyOn(mongoModel, "afterDelete").and.callThrough();
@@ -161,21 +178,23 @@ describe("MongoModel", function(){
             });
         });
 
-        afterEach(function(done){
+        afterEach(function(done) {
             mongoModel = null;
             MongoTestHelpers.close(mongo, done);
         });
 
-        it ("deletes the model from the db", function(done){
-            mongoModel._db.insertOne(data).then(function(item){
+        it("deletes the model from the db", function(done) {
+            mongoModel._db.insertOne(data).then(function(item) {
                 mongoModel.id = item.insertedId;
 
-                mongoModel.delete().then(function(result){
+                mongoModel.delete().then(function(result) {
                     expect(mongoModel.beforeDelete).toHaveBeenCalled();
                     expect(mongoModel.afterDelete).toHaveBeenCalled();
                     expect(result).toBe(true);
 
-                    mongoModel._db.findOne({_id: mongoModel.id}).then(function(result){
+                    mongoModel._db.findOne({
+                        _id: mongoModel.id
+                    }).then(function(result) {
                         expect(result).toBe(null);
                         done();
                     });
@@ -184,7 +203,7 @@ describe("MongoModel", function(){
         });
     });
 
-    describe(".expand", function(){
+    describe(".expand", function() {
         class RolesMock extends MongoModel {
             constructor(options = {}) {
                 options.collection = "tests_roles";
@@ -196,7 +215,7 @@ describe("MongoModel", function(){
         let role1;
         let role2;
 
-        beforeEach(function(done){
+        beforeEach(function(done) {
             MongoTestHelpers.connect(mongo).then(function() {
                 user = new MongoModel({
                     collection: collection,
@@ -217,7 +236,7 @@ describe("MongoModel", function(){
                 let promises = [];
                 promises.push(role1.save());
                 promises.push(role2.save());
-                Promise.all(promises).then(function () {
+                Promise.all(promises).then(function() {
                     user.data.roles.push(role1.id);
                     user.data.roles.push(role2.id);
                     user.save().then(done);
@@ -225,7 +244,7 @@ describe("MongoModel", function(){
             });
         });
 
-        afterEach(function(done){
+        afterEach(function(done) {
             let promises = [];
             promises.push(user.delete());
             promises.push(role1.delete());
@@ -238,8 +257,8 @@ describe("MongoModel", function(){
             });
         });
 
-        it ("loops through the models array of ids and fetches their models", function(done){
-            user.expand(RolesMock, "roles").then(function(){
+        it("loops through the models array of ids and fetches their models", function(done) {
+            user.expand(RolesMock, "roles").then(function() {
                 expect(user.data.roles[0].toJSON()).toEqual({
                     permissions: [
                         "create_something",

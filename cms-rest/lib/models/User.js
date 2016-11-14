@@ -5,11 +5,11 @@ const MongoModel = require("./MongoModel");
 const Role = require("./Role");
 
 /**
-* Class User
+ * Class User
  * model and utitliy methods for a user model
-* @extends MongoModel
-*/
-class User extends MongoModel{
+ * @extends MongoModel
+ */
+class User extends MongoModel {
 
     /**
      * Sets the collection to users
@@ -41,7 +41,9 @@ class User extends MongoModel{
      * @returns {Promise|Boolean}
      */
     fetchByUsername() {
-        return this.find({username: this.data.username});
+        return this.find({
+            username: this.data.username
+        });
     }
 
     /**
@@ -58,7 +60,7 @@ class User extends MongoModel{
 
         let self = this;
         this.data.username = username;
-        return this.fetchByUsername(username).then(function(){
+        return this.fetchByUsername(username).then(function() {
             return Boolean(self.id) && self.data.password === password;
         });
     }
@@ -75,7 +77,7 @@ class User extends MongoModel{
         }
 
         let self = this;
-        return this.expand(Role, "roles").then(function(){
+        return this.expand(Role, "roles").then(function() {
             // use ``for`` instead of ``forEach``
             // so that we can return as soon as we can validate
             for (let i = 0; i < self.data.roles.length; i++) {
@@ -109,7 +111,7 @@ class User extends MongoModel{
         }
 
         let roles = [];
-        this.data.roles.forEach(function(role){
+        this.data.roles.forEach(function(role) {
             roles.push((role instanceof Role) ? role.id : role);
         });
         data.roles = roles;

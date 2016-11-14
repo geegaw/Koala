@@ -3,22 +3,22 @@
 const models = require("./models");
 const Responses = require("../helpers/responses");
 
-class ApiController{
+class ApiController {
 
     _getModel(modelName) {
-        if (models[modelName]){
+        if (models[modelName]) {
             return models[modelName];
         }
         return false;
     }
 
-    _authorize (model, user, permission) {
+    _authorize(model, user, permission) {
         return user.can(permission + "_" + model.collection);
     }
 
-    _verifyModel (res, modelName, permission, user ) {
+    _verifyModel(res, modelName, permission, user) {
         let Model = this._getModel(modelName);
-        if (Model === false){
+        if (Model === false) {
             Responses.error(res, `Unkown modelName: ${modelName}`);
             return false;
         }
