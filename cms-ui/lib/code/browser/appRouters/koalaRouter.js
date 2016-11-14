@@ -9,6 +9,7 @@ const Role = require("../models/Role");
 
 const HomeView = require("../views/pages/homeView");
 const PageNotFoundView = require("../views/pages/pageNotFoundView");
+const unAuthorizedView = require("../views/pages/unAuthorizedView");
 
 const KoalaRouter = Marionette.AppRouter.extend({
 
@@ -23,20 +24,26 @@ const KoalaRouter = Marionette.AppRouter.extend({
     },
 
     roles: function() {
-        this.triggerMethod("load:view", new RolesView({
-            collection: new Roles(),
-            label: "Roles",
-        }));
+        if (this.authorized("read_roles")) {
+            this.triggerMethod("load:view", new RolesView({
+                collection: new Roles(),
+                label: "Roles",
+            }));
+        }
     },
 
     editRole: function(id) {
-        this.role(new Role({
-            id: id
-        }));
+        if (this.authorized("update_roles")) {
+            this.role(new Role({
+                id: id
+            }));
+        }
     },
 
     newRole: function() {
-        this.role(new Role());
+        if (this.authorized("create_roles")) {
+            this.role(new Role());
+        }
     },
 
     role: function(model) {
@@ -53,6 +60,18 @@ const KoalaRouter = Marionette.AppRouter.extend({
 
     pageNotFound: function() {
         this.triggerMethod("load:view", new PageNotFoundView());
+    },
+
+    authorized: function(permission) {
+        if (!userCan(permission)) {
+            this.unAuthorized();
+            return false;
+        }
+        return true;
+    },
+
+    unAuthorized: function() {
+        this.triggerMethod("load:view", new unAuthorizedView());
     },
 
     onRoute: function(name, path, args) {

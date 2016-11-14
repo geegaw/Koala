@@ -1,2 +1,5 @@
-<div class="role-item-name search-display"><a href="/roles/{{id}}">{{name}}</a></div>
-<button type="button" class="role-delete search-delete"><i></i></button>
+<div class="role-item-name search-display">
+    {{#canUpdate}}<a href="/roles/{{id}}">{{name}}</a>{{/canUpdate}}
+    {{^canUpdate}}{{name}}{{/canUpdate}}
+</div>
+{{#canDelete}}<button type="button" class="role-delete search-delete"><i></i></button>{{/canDelete}}

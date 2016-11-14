@@ -14,11 +14,12 @@ const MainNavView = Marionette.View.extend({
     nav: [{
         url: "/roles",
         label: "Roles",
+        permission: "read_roles",
     }, ],
 
     templateContext: function() {
         return {
-            nav: this.nav,
+            nav: this.getNav(),
         };
     },
 
@@ -30,6 +31,13 @@ const MainNavView = Marionette.View.extend({
     toggleNav: function() {
         this.getUI("nav").toggle();
     },
+
+    getNav: function() {
+        return this.nav.filter(function(item) {
+            return userCan(item.permission);
+        });
+    },
+
 });
 
 module.exports = MainNavView;

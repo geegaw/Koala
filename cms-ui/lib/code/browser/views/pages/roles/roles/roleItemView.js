@@ -10,6 +10,9 @@ const RoleItemView = Marionette.View.extend({
     ui: {
         delete: ".search-delete",
     },
+    templateContext: function() {
+        return Object.assign({}, this.getPermissions());
+    },
 
     events: {
         "click @ui.delete": "delete",
@@ -32,6 +35,13 @@ const RoleItemView = Marionette.View.extend({
     notifyError: function(jqXHR, textStatus, errorThrown) {
         this.getUI("delete").removelass("loading");
         console.error(jqXHR, textStatus, errorThrown);
+    },
+
+    getPermissions: function() {
+        return {
+            canUpdate: userCan("update_roles"),
+            canDelete: userCan("delete_roles"),
+        };
     },
 
 });
