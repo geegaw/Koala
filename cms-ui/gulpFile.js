@@ -8,6 +8,7 @@ const jasmine = require("gulp-jasmine");
 const jsdoc = require("gulp-jsdoc3");
 const jshint = require("gulp-jshint");
 const nodemon = require("gulp-nodemon");
+const runSequence = require("run-sequence");
 const prettify = require("gulp-jsbeautifier");
 const sass = require("gulp-sass");
 const sourcemaps = require("gulp-sourcemaps");
@@ -54,9 +55,7 @@ gulp.task("beautify:js", function() {
 
 gulp.task("lint:js", function(){
     return gulp.src(ALL_JS)
-        .pipe(jshint({
-            config: __dirname + "/tests/configs/.jshintrc",
-        }))
+        .pipe(jshint())
         .pipe(jshint.reporter("default"));
 });
 
@@ -80,10 +79,6 @@ gulp.task("sass", function () {
         .pipe(gulp.dest(PUBLIC_CSS));
 });
 
-gulp.task("sass:watch", function () {
-    gulp.watch(ALL_SASS, ["sass"]);
-});
-
 gulp.task("build:koala", function () {
     return browserify(`${BROWSER_DIR}/koala.js`, {
         debug: config.debug,
@@ -100,12 +95,6 @@ gulp.task("build:login", function () {
         .pipe(gulp.dest(PUBLIC_JS));
 });
 
-gulp.task("build:js", ["build:koala", "build:login"]);
-
-gulp.task("build:watch", function () {
-    gulp.watch(BROWSER_CODE, ["build:js"]);
-});
-
 gulp.task("build:templates", function() {
     gulp.src(TEMPLATES)
         .pipe(compiler("templates.js", {
@@ -115,8 +104,8 @@ gulp.task("build:templates", function() {
         .pipe(gulp.dest("./dist/templates"));
 });
 
-gulp.task("build:templates:watch", function () {
-    gulp.watch(TEMPLATES, ["build:templates"]);
+gulp.task("build:js", function(cb){
+    runSequence("build:templates", ["build:koala", "build:login"], cb);
 });
 
 gulp.task("start", function() {
@@ -134,5 +123,10 @@ gulp.task("doc", function () {
 
 gulp.task("build", ["fontawesome", "build:templates", "build:js", "sass"]);
 
-gulp.task("watch", ["sass:watch", "build:watch", "build:templates:watch"]);
-gulp.task("default", ["build", "watch", "start"]);
+gulp.task("watch", function(){
+    gulp.watch(ALL_SASS, ["sass"]);
+    gulp.watch([].concat(BROWSER_CODE, TEMPLATES) , ["build:js"]);
+});
+gulp.task("default", function(cb){
+    runSequence("build", ["start", "watch"], cb);
+});

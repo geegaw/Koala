@@ -4,6 +4,7 @@ const gulp = require("gulp");
 const jasmine = require("gulp-jasmine");
 const jsdoc = require("gulp-jsdoc3");
 const jshint = require("gulp-jshint");
+const nodemon = require("gulp-nodemon");
 const prettify = require("gulp-jsbeautifier");
 
 const TESTS = "./tests/integrations/**/*.js";
@@ -37,7 +38,16 @@ gulp.task("lint:js", function(){
 gulp.task("test", ["beautify:js", "lint:js", "test:unit"]);
 
 gulp.task("doc", function () {
-    var config = require("./jsdoc.json");
+    var config = require("./tests/configs/jsdoc.json");
     gulp.src(["README.md", "./lib/models/**/*.js"], {read: false})
         .pipe(jsdoc(config));
 });
+
+gulp.task("start", function() {
+    nodemon({
+        script: "server.js",
+        env: { "NODE_ENV": "development" },
+    });
+});
+
+gulp.task("default", ["start"]);
