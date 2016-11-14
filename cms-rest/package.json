@@ -22,10 +22,11 @@
     "gulp-jasmine": "~2.4",
     "gulp-jsdoc3": "~1.0",
     "gulp-jshint": "~2.0",
+    "gulp-nodemon": "~2.2",
     "jshint": "~2.9"
   },
   "scripts": {
-    "start": "node server.js",
+    "start": "gulp",
     "test": "gulp test"
   }
 }

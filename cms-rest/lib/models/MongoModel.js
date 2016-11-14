@@ -58,7 +58,9 @@ class MongoModel {
      * @param {Array} [results=[]]]
      * @returns {Array} of Objects
      */
-    formatSearchResults(results = []) {}
+    formatSearchResults(results = []) {
+        return results;
+    }
 
     /**
      * Searchs the collection by the query passed

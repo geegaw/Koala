@@ -26,8 +26,6 @@ const RoleItemView = Marionette.View.extend({
 
     deleteModel: function() {
         this.getUI("delete").addClass("loading");
-
-        let self = this;
         this.model.destroy().fail(this.notifyError.bind(this));
     },
 
