@@ -60,7 +60,7 @@ class User extends MongoModel {
 
         let self = this;
         this.data.username = username;
-        return this.fetchByUsername(username).then(function() {
+        return this.fetchByUsername().then(function() {
             return Boolean(self.id) && self.data.password === password;
         });
     }
@@ -117,6 +117,40 @@ class User extends MongoModel {
         data.roles = roles;
 
         return data;
+    }
+
+    /**
+     * returns the id and name of the Role
+     * @param {Array} [results=[]]]
+     * @returns {Array} of Models
+     */
+    formatSearchResults(results) {
+        let formatted = [];
+        results.forEach(function(user) {
+            formatted.push({
+                id: user._id,
+                name: user.name,
+                username: user.username,
+            });
+        });
+        return formatted;
+    }
+
+    /**
+     * search keyword in name only
+     * @param {Object} query
+     * @returns {Object}
+     */
+    formatQuery(query) {
+        if (query.keyword) {
+            query.name = {
+                "$regex": query.keyword,
+                "$options": "g",
+            };
+        }
+        delete query.keyword;
+
+        return query;
     }
 
 }

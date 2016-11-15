@@ -260,12 +260,14 @@ describe("MongoModel", function() {
         it("loops through the models array of ids and fetches their models", function(done) {
             user.expand(RolesMock, "roles").then(function() {
                 expect(user.data.roles[0].toJSON()).toEqual({
+                    id: role1.id,
                     permissions: [
                         "create_something",
                         "update_something",
                     ]
                 });
                 expect(user.data.roles[1].toJSON()).toEqual({
+                    id: role2.id,
                     permissions: [
                         "delete_something",
                     ],
