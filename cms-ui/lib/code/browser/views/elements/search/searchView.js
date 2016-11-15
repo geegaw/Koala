@@ -26,14 +26,14 @@ const SearchView = Marionette.View.extend({
         };
     },
 
-    initialize: function(options={}) {
+    initialize: function(options = {}) {
         options.returnTo = options.returnTo || "/" + options.label,
 
-        this.collection.fetch({
-            data: {
-                limit: MAX_RESULTS,
-            },
-        }).done(this.render.bind(this));
+            this.collection.fetch({
+                data: {
+                    limit: MAX_RESULTS,
+                },
+            }).done(this.render.bind(this)); //jshint ignore:line
     },
 
     events: {

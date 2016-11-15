@@ -4,7 +4,7 @@ const ResultItemView = require("../../../elements/search/resultItemView");
 
 const RoleItemView = ResultItemView.extend({
     template: "pages/roles/role-item",
-    className: function(){
+    className: function() {
         return ResultItemView.prototype.className + " role-item";
     },
 
