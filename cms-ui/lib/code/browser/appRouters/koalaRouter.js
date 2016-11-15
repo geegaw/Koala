@@ -13,44 +13,59 @@ const unAuthorizedView = require("../views/pages/unAuthorizedView");
 
 const KoalaRouter = Marionette.AppRouter.extend({
 
+    models: {
+        roles: {
+            formView: RolesFormView,
+            searchView: RolesView,
+            collection: Roles,
+            model: Role,
+            label: "Role",
+            permission: "roles",
+        },
+    },
+
     routes: {
 
-        "roles/new": "newRole",
-        "roles/:id": "editRole",
-        "roles": "roles",
-
         "home": "home",
+
+        ":model/new": "create",
+        ":model/:id": "edit",
+        ":model": "search",
+
         "*notfound": "pageNotFound",
     },
 
-    roles: function() {
-        if (this.authorized("read_roles")) {
-            this.triggerMethod("load:view", new RolesView({
-                collection: new Roles(),
-            }));
+    create: function(modelName) {
+        let info = this.getModel(modelName);
+        if (info && this.authorized("create_" + info.permission)) {
+            this.form(info, modelName, new info.model());
         }
     },
 
-    editRole: function(id) {
-        if (this.authorized("update_roles")) {
-            this.role(new Role({
+    edit: function(modelName, id) {
+        let info = this.getModel(modelName);
+        if (info && this.authorized("update_" + info.permission)) {
+            this.form(info, modelName, new info.model({
                 id: id
             }));
         }
     },
 
-    newRole: function() {
-        if (this.authorized("create_roles")) {
-            this.role(new Role());
-        }
+    form: function(info, modelName, model) {
+        this.triggerMethod("load:view", new info.formView({
+            model: model,
+            label: info.label,
+            returnTo: "/" + modelName,
+        }));
     },
 
-    role: function(model) {
-        this.triggerMethod("load:view", new RolesFormView({
-            model: model,
-            label: "Role",
-            returnTo: "/roles",
-        }));
+    search: function(modelName) {
+        let info = this.getModel(modelName);
+        if (info && this.authorized("read_" + info.permission)) {
+            this.triggerMethod("load:view", new info.searchView({
+                collection: new info.collection(),
+            }));
+        }
     },
 
     home: function() {
@@ -67,6 +82,14 @@ const KoalaRouter = Marionette.AppRouter.extend({
             return false;
         }
         return true;
+    },
+
+    getModel: function(modelName) {
+        if (!this.models[modelName]) {
+            this.pageNotFound();
+            return false;
+        }
+        return this.models[modelName];
     },
 
     unAuthorized: function() {
