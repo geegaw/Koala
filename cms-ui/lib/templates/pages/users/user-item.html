@@ -1,0 +1,8 @@
+<div class="search-display">
+    <div class="user-item-name">
+        {{#canUpdate}}<a href="/users/{{id}}">{{name}}</a>{{/canUpdate}}
+        {{^canUpdate}}{{name}}{{/canUpdate}}
+    </div>
+    <div class="user-username">{{username}}</div>
+</div>
+{{#canDelete}}<button type="button" class="user-delete search-delete"><i></i></button>{{/canDelete}}

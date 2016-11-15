@@ -17,7 +17,8 @@ $("form").submit(function() {
 
         $.post("/login", data, "json").done(function() {
             window.location = redirectedFrom || "/home";
-        }).fail(function() {
+        }).fail(function(error) {
+            console.error(error);
             $(".invalid").show();
         });
     }
