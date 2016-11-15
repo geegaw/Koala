@@ -103,7 +103,9 @@ class MongoModel {
      */
     toJSON() {
         let self = this;
-        let data = {};
+        let data = {
+            id: this.id,
+        };
         let keys = Object.keys(self.data);
         keys.forEach(function(key) {
             let item = self.data[key];
@@ -113,6 +115,7 @@ class MongoModel {
                 data[key] = item;
             }
         });
+
         return data;
     }
 
@@ -121,7 +124,9 @@ class MongoModel {
      * @returns {Object}
      */
     toDB() {
-        return this.toJSON();
+        let json = this.toJSON();
+        delete json.id;
+        return json;
     }
 
     /**

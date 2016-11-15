@@ -14,7 +14,7 @@ AuthenticationRouter.post("/login", function(req, res) {
         let session = new Session({
             userId: "root"
         });
-        session.save().then(function() {
+        return session.save().then(function() {
             Responses.json(res, {
                 user: {
                     id: "root",
@@ -25,19 +25,16 @@ AuthenticationRouter.post("/login", function(req, res) {
         });
     } else {
         let user = new User();
-        user.authenticate({
-            username: post.username,
-            password: post.password
-        }).then(function(valid) {
+        return user.authenticate(post.username, post.password).then(function(valid) {
             if (valid) {
                 let session = new Session({
                     data: {
                         userId: user.id,
                     }
                 });
-                session.save().then(function() {
+                return session.save().then(function() {
                     Responses.json(res, {
-                        user: User.toJSON(),
+                        user: user.toJSON(),
                         sessionId: session.id,
                     });
                 });
