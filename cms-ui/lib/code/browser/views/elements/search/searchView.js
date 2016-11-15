@@ -21,20 +21,30 @@ const SearchView = Marionette.View.extend({
 
     templateContext: function() {
         return {
-            label: this.getOption("label"),
+            label: this.label,
+            canCreate: userCan("create_" + this.label),
         };
     },
 
-    initialize: function() {
-        this.collection.fetch({
-            data: {
-                limit: MAX_RESULTS,
-            },
-        }).done(this.render.bind(this));
+    initialize: function(options = {}) {
+        options.returnTo = options.returnTo || "/" + options.label,
+
+            this.collection.fetch({
+                data: {
+                    limit: MAX_RESULTS,
+                },
+            }).done(this.render.bind(this)); //jshint ignore:line
     },
 
     events: {
         "click @ui.go": "search",
+    },
+
+    onRender: function() {
+        this.getRegion("results").show(new Marionette.CollectionView({
+            collection: this.collection,
+            childView: this.resultView,
+        }));
     },
 
     search: function() {

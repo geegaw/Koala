@@ -1,3 +1,49 @@
+.koala-search {
+}
+
+.search-page {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.search-results {
+  margin-top: 1rem;
+  height: 50%;
+  overflow-y: auto;
+}
+
+.search-create {
+  i {
+    @extend .fa-plus;
+    font-family: $fontawesome;
+    margin-right: 5px;
+  }
+}
+
+.search-commands {
+  float: right;
+  position: relative;
+}
+
+.search-go {
+  position: absolute;
+  right: 0;
+  top: 0;
+  border: none;
+  background: transparent;
+
+  &:focus {
+    outline: none;
+  }
+
+  i {
+    @extend .fa-search;
+    font-family: $fontawesome;
+  }
+
+
+}
+
 .search-item {
   width: 100%;
   padding: .5rem;

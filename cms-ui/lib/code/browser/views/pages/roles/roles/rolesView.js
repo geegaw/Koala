@@ -1,14 +1,11 @@
 "use strict";
 
 const SearchView = require("../../../elements/search/searchView");
-const RolesCollectionView = require("./rolesCollectionView");
+const RoleItemView = require("./roleItemView");
 
 const RolesView = SearchView.extend({
-    onRender: function() {
-        this.getRegion("results").show(new RolesCollectionView({
-            collection: this.collection,
-        }));
-    },
+    resultView: RoleItemView,
+    label: "roles",
 });
 
 module.exports = RolesView;
