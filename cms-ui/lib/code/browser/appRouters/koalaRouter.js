@@ -27,7 +27,6 @@ const KoalaRouter = Marionette.AppRouter.extend({
         if (this.authorized("read_roles")) {
             this.triggerMethod("load:view", new RolesView({
                 collection: new Roles(),
-                label: "Roles",
             }));
         }
     },

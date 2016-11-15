@@ -1,9 +1,10 @@
 <h1>{{label}}</h1>
 
 <div class="search-page">
+    {{#canCreate}}<a class="search-create" href="/{{label}}/new"><i></i>New</a>{{/canCreate}}
     <div class="search-commands">
         <input type="text" placeholder="search" class="search-keyword" />
-        <input type="submit" class="search-go" value="search" />
+        <button type="submit" class="search-go"><i></i></button>
     </div>
     <div class="search-filters"></div>
     <div class="search-results"></div>
