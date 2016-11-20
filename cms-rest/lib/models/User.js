@@ -94,9 +94,18 @@ class User extends MongoModel {
      * @returns {Object}
      */
     toJSON() {
-        let json = super.toJSON();
-        delete json.password;
-        return json;
+        let self = this;
+        return super.toJSON().then(function(json) {
+            delete json.password;
+
+            return self.expand(Role, "roles").then(function() {
+                json.permissions = [];
+                self.data.roles.forEach(function(role) {
+                    json.permissions = [].concat(json.permissions, role.data.permissions);
+                });
+                return json;
+            });
+        });
     }
 
     /**
@@ -104,10 +113,12 @@ class User extends MongoModel {
      * @returns {Object}
      */
     toDB() {
-        let data = super.toJSON();
+        let data = this.data;
 
-        if (this.data.password) {
+        if (this.data.password && this.data.password.length) {
             data.password = this.data.password;
+        } else {
+            delete data.password;
         }
 
         let roles = [];
@@ -116,7 +127,7 @@ class User extends MongoModel {
         });
         data.roles = roles;
 
-        return data;
+        return Promise.resolve(data);
     }
 
     /**

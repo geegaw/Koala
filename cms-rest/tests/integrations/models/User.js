@@ -154,8 +154,11 @@ describe("User", function() {
     });
 
     describe(".toJSON", function() {
-        it("removes password from json", function() {
-            expect(user.toJSON().password).toBe(undefined);
+        it("removes password from json", function(done) {
+            user.toJSON().then(function(json) {
+                expect(json.password).toBe(undefined);
+                done();
+            });
         });
     });
 
@@ -179,18 +182,26 @@ describe("User", function() {
             role._db.remove().then(done);
         });
 
-        it("has the password", function() {
-            expect(user.toDB().password).toBe("encrypted");
+        it("has the password", function(done) {
+            user.toDB().then(function(data) {
+                expect(data.password).toBe("encrypted");
+                done();
+            });
         });
 
-        it("keeps roles as ids when not expanded", function() {
-            expect(user.toDB().roles).toEqual([role.id]);
+        it("keeps roles as ids when not expanded", function(done) {
+            user.toDB().then(function(data) {
+                expect(data.roles).toEqual([role.id]);
+                done();
+            });
         });
 
         it("uses roles' ids when expanded", function(done) {
             user.expand(Role, "roles").then(function() {
-                expect(user.toDB().roles).toEqual([role.id]);
-                done();
+                user.toDB().then(function(data) {
+                    expect(data.roles).toEqual([role.id]);
+                    done();
+                });
             });
         });
     });

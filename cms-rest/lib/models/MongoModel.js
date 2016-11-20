@@ -107,16 +107,27 @@ class MongoModel {
             id: this.id,
         };
         let keys = Object.keys(self.data);
+        let promises = [];
         keys.forEach(function(key) {
             let item = self.data[key];
-            if (typeof item === "object" && typeof item.toJSON === "function") {
-                data[key] = self.data[key].toJSON();
-            } else {
-                data[key] = item;
+            if (item && key !== "_id") {
+                if (typeof item === "object" && typeof item.toJSON === "function") {
+                    promises.push(item.toJSON().then(function(json) {
+                        data[key] = json;
+                    }));
+                } else if (Array.isArray(item)) {
+                    data[key] = [].concat(item);
+                } else if (typeof item === "object") {
+                    data[key] = Object.assign({}, item);
+                } else {
+                    data[key] = item;
+                }
             }
         });
 
-        return data;
+        return Promise.all(promises).then(function() {
+            return data;
+        });
     }
 
     /**
@@ -124,9 +135,10 @@ class MongoModel {
      * @returns {Object}
      */
     toDB() {
-        let json = this.toJSON();
-        delete json.id;
-        return json;
+        return this.toJSON().then(function(json) {
+            delete json.id;
+            return json;
+        });
     }
 
     /**
@@ -134,7 +146,7 @@ class MongoModel {
      * @returns {Promise|Object}
      */
     beforeSave() {
-        return Promise.resolve(this.toDB());
+        return this.toDB();
     }
 
     /**
