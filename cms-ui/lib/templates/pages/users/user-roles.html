@@ -1,0 +1,8 @@
+<ul>
+    {{#roles}}
+    <li class="user__role">
+        <label for="{{cid}}">{{label}}</label>
+        <input class="user__role__input" type="checkbox" id="{{cid}}" value="{{value}}" {{#checked}}checked{{/checked}} />
+    </li>
+    {{/roles}}
+</ul>

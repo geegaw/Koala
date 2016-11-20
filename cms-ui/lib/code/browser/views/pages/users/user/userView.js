@@ -5,6 +5,7 @@ const Marionette = require("backbone.marionette");
 const TextView = require("../../../elements/form/textView");
 const EmailView = require("../../../elements/form/emailView");
 const PasswordView = require("../../../elements/form/passwordView");
+const UserRoles = require("./userRolesView");
 
 const UserView = Marionette.View.extend({
     template: "pages/users/users-form",
@@ -15,6 +16,7 @@ const UserView = Marionette.View.extend({
         username: ".users--form--username",
         password: ".users--form--password",
         passwordConfirmation: ".users--form--password-confirmation",
+        roles: ".users--form--roles",
     },
 
     onRender: function() {
@@ -46,6 +48,10 @@ const UserView = Marionette.View.extend({
             field: "passwordConfirmation",
             label: "Confirm Password",
             extraClass: "users--form--password-confirmation__input",
+        }));
+
+        this.getRegion("roles").show(new UserRoles({
+            model: this.model,
         }));
 
     },
