@@ -7,6 +7,7 @@ const config = require("../../../../config");
 const User = Backbone.Model.extend({
 
     defaults: {
+        roles: [],
         permissions: [],
     },
 
