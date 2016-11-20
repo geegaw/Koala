@@ -33,9 +33,11 @@ AuthenticationRouter.post("/login", function(req, res) {
                     }
                 });
                 return session.save().then(function() {
-                    Responses.json(res, {
-                        user: user.toJSON(),
-                        sessionId: session.id,
+                    user.toJSON().then(function(json) {
+                        Responses.json(res, {
+                            user: json,
+                            sessionId: session.id,
+                        });
                     });
                 });
             } else {

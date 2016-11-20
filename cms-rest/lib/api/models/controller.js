@@ -28,8 +28,10 @@ class ModelsController extends ApiController {
                 id: id
             });
             return model.fetch().then(function() {
-                Responses.json(res, Object.assign({}, model.toJSON()), {
-                    id: model.id
+                return model.toJSON().then(function(json) {
+                    Responses.json(res, Object.assign({}, json, {
+                        id: model.id
+                    }));
                 });
             });
         }

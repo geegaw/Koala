@@ -56,6 +56,16 @@ const User = Backbone.Model.extend({
         }
     },
 
+    toJSON: function() {
+        let json = Backbone.Model.prototype.toJSON.apply(this);
+        delete json.permissions;
+        delete json.passwordConfirmation;
+        if (json.password) {
+            json.password = this.hashify(json.password);
+        }
+        return json;
+    },
+
     can: function(permission) {
         if (this.id === "root") {
             return true;
@@ -71,15 +81,6 @@ const User = Backbone.Model.extend({
     //@TODO
     validatePassword: function(password) {
         return password.length;
-    },
-
-    toJSON: function() {
-        let json = Backbone.Model.prototype.toJSON.apply(this);
-        delete json.passwordConfirmation;
-        if (json.password) {
-            json.password = this.hashify(json.password);
-        }
-        return json;
     },
 
     hashify: function(password) {
