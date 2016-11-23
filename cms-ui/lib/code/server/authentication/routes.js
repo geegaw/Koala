@@ -28,6 +28,9 @@ AuthenticationRouter.post("*", function(req, res) {
         req.session.sessionId = result.sessionId;
         req.session.user = result.user;
 
+        res.cookie("sessionId", result.sessionId);
+        res.cookie("userId", result.user.id);
+
         res.sendStatus(200);
     }).catch(function(error) {
         console.error(error.toString());

@@ -2,6 +2,7 @@
 
 const express = require("express");
 const session = require("express-session");
+const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const config = require("./config");
 const morgan = require("morgan");
@@ -9,6 +10,7 @@ const morgan = require("morgan");
 let checkAuth = require("./lib/code/server/authentication/middleware");
 let app = express();
 
+app.use(cookieParser(config.cookies.secret));
 app.use(bodyParser.urlencoded({
     extended: false
 }));

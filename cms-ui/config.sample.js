@@ -13,6 +13,9 @@ const config = {
         secret: "$ecret",
     },
     debug: true,
+    cookies: {
+        secret: "$ecret",
+    }
 };
 
 module.exports = config;

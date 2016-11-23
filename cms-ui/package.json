@@ -13,6 +13,7 @@
     "backbone.marionette": "~3.1",
     "body-parser": "~1.15",
     "browserify": "^13.1.1",
+    "cookie-parser": "^1.4.3",
     "express": "~4.14",
     "express-session": "~1.14",
     "font-awesome": "~4.7",
