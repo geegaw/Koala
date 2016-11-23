@@ -7,6 +7,11 @@ const RolesFormView = require("../views/pages/roles/role/rolesFormView");
 const Roles = require("../collections/Roles");
 const Role = require("../models/Role");
 
+const TemplatesView = require("../views/pages/templates/templates/templatesView");
+const TemplatesFormView = require("../views/pages/templates/template/templatesFormView");
+const Templates = require("../collections/Templates");
+const Template = require("../models/Template");
+
 const UsersView = require("../views/pages/users/users/usersView");
 const UsersFormView = require("../views/pages/users/user/userFormView");
 const Users = require("../collections/Users");
@@ -26,6 +31,14 @@ const KoalaRouter = Marionette.AppRouter.extend({
             model: Role,
             label: "Role",
             permission: "roles",
+        },
+        templates: {
+            formView: TemplatesFormView,
+            searchView: TemplatesView,
+            collection: Templates,
+            model: Template,
+            label: "Template",
+            permission: "templates",
         },
         users: {
             formView: UsersFormView,

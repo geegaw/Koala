@@ -1,0 +1,7 @@
+<div class="search-display">
+    <div class="template-item-name">
+        {{#canUpdate}}<a href="/templates/{{id}}">{{name}}</a>{{/canUpdate}}
+        {{^canUpdate}}{{name}}{{/canUpdate}}
+    </div>
+</div>
+{{#canDelete}}<button type="button" class="template-delete search-delete"><i></i></button>{{/canDelete}}
