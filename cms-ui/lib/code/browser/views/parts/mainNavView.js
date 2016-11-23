@@ -16,6 +16,10 @@ const MainNavView = Marionette.View.extend({
         label: "Roles",
         permission: "read_roles",
     }, {
+        url: "/templates",
+        label: "Templates",
+        permission: "read_templates",
+    }, {
         url: "/users",
         label: "Users",
         permission: "read_users",

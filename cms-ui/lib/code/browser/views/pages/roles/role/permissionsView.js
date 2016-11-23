@@ -32,8 +32,9 @@ const PermissionsView = Marionette.View.extend({
     },
 
     permissions: {
-        "users": CRUD,
         "roles": CRUD,
+        "templates": CRUD,
+        "users": CRUD,
     },
 
     setValue: function(evt) {
