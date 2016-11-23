@@ -1,0 +1,51 @@
+.tabs {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.tabs--labels {
+  width: 100%;
+}
+
+.tabs--labels--labels {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}
+
+.tab--label {
+  flex-grow: 1;
+  padding: .5rem 1rem;
+  text-transform: capitalize;
+  background: darken($koala-background-color, 10%);
+  border-left: 1rem solid lighten($koala-alt-background-color, 20%);
+  cursor: pointer;
+
+  &.active {
+    background: $koala-contrast-background-color;
+    border-left: 1rem solid $koala-alt-background-color;
+    color: $koala-alt-background-color;
+  }
+
+  &:first-child {
+    margin-left: 0;
+  }
+}
+
+.tabs--bodies {
+  width: 100%;
+}
+
+.tab--body {
+  width: 100%;
+  flex-basis: auto;
+  height: 20rem;
+  overflow: hidden;
+  background: $koala-contrast-background-color;
+  color: $koala-contrast-color;
+  padding: 1rem;
+}

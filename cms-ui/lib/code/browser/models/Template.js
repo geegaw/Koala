@@ -4,7 +4,13 @@ const Backbone = require("backbone");
 
 const Template = Backbone.Model.extend({
 
-    defaults: {},
+    defaults: {
+        tabs: new Backbone.Collection({
+            name: "main"
+        }, {
+            parse: true
+        }),
+    },
 
     urlRoot: "/api/model/template",
 
