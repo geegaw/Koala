@@ -12,14 +12,6 @@
   overflow-y: auto;
 }
 
-.search-create {
-  i {
-    @extend .fa-plus;
-    font-family: $fontawesome;
-    margin-right: 5px;
-  }
-}
-
 .search-commands {
   float: right;
   position: relative;

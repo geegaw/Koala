@@ -1,0 +1,41 @@
+.template--tab{
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.template--add-field {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+}
+
+.field {
+  width: 100%;
+  padding: 1rem;
+  border-bottom: 2px solid $koala-alt-background-color;
+  clear: both;
+  float: left;
+  position: relative;
+}
+
+
+.field--preview {
+  float: right;
+  padding-right: 2rem;
+}
+
+.field--options--options {
+  float: left;
+}
+
+.field--delete {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+
+  i {
+    @extend .fa-trash-o;
+    font-family: $fontawesome;
+  }
+}

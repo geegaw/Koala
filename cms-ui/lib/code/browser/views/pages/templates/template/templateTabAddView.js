@@ -2,14 +2,14 @@
 
 const Marionette = require("backbone.marionette");
 
-const Tab = require("../../../../models/Tab");
+const TemplateTab = require("../../../../models/TemplateTab");
 const TextView = require("../../../elements/form/textView");
 
 const TemplateAddTabView = Marionette.View.extend({
     template: "pages/templates/template-new-tab",
     className: "templates--new-tab",
 
-    model: new Tab(),
+    model: new TemplateTab(),
 
     ui: {
         showForm: ".templates--add-tab",
