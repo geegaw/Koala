@@ -38,3 +38,14 @@
     font-family: $fontawesome;
   }
 }
+
+.add {
+  @extend .fa-plus;
+  font-family: $fontawesome;
+  margin-right: 5px;
+}
+
+.koala-button {
+  background: transparent;
+  border: none;
+}

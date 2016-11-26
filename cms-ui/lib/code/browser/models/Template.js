@@ -1,12 +1,12 @@
 "use strict";
 
 const Backbone = require("backbone");
-const Tabs = require("../collections/Tabs");
+const TemplateTabs = require("../collections/TemplateTabs");
 
 const Template = Backbone.Model.extend({
 
     defaults: {
-        tabs: new Tabs({
+        tabs: new TemplateTabs({
             name: "main"
         }, {
             parse: true
@@ -22,7 +22,7 @@ const Template = Backbone.Model.extend({
     },
 
     parse: function(data) {
-        data.tabs = new Tabs(data.tabs || {}, {
+        data.tabs = new TemplateTabs(data.tabs || {}, {
             parse: true
         });
         return data;
