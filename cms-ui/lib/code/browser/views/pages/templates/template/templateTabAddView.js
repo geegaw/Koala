@@ -1,15 +1,15 @@
 "use strict";
 
-const Backbone = require("backbone");
 const Marionette = require("backbone.marionette");
 
+const Tab = require("../../../../models/Tab");
 const TextView = require("../../../elements/form/textView");
 
 const TemplateAddTabView = Marionette.View.extend({
     template: "pages/templates/template-new-tab",
     className: "templates--new-tab",
 
-    model: new Backbone.Model(),
+    model: new Tab(),
 
     ui: {
         showForm: ".templates--add-tab",
