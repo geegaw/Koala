@@ -1,11 +1,12 @@
 "use strict";
 
 const Backbone = require("backbone");
+const Tabs = require("../collections/Tabs");
 
 const Template = Backbone.Model.extend({
 
     defaults: {
-        tabs: new Backbone.Collection({
+        tabs: new Tabs({
             name: "main"
         }, {
             parse: true
@@ -18,6 +19,20 @@ const Template = Backbone.Model.extend({
         if (!attrs.name || attrs.name.trim().length === 0) {
             return "name can not be empty";
         }
+    },
+
+    parse: function(data) {
+        data.tabs = new Tabs(data.tabs || {}, {
+            parse: true
+        });
+        return data;
+    },
+
+    toJSON: function() {
+        let json = Backbone.Model.prototype.toJSON.apply(this);
+        return Object.assign({}, json, {
+            tabs: this.get("tabs").toJSON(),
+        });
     },
 
 });
