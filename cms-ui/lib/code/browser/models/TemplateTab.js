@@ -9,6 +9,21 @@ const TemplateTab = Tab.extend({
             fields: new Fields(),
         };
     },
+
+    parse: function(data) {
+        data.fields = new Fields(data.fields, {
+            parse: true
+        });
+        return data;
+    },
+
+    toJSON: function() {
+        let json = Tab.prototype.toJSON.apply(this);
+        return Object.assign({}, json, {
+            fields: this.get("fields").toJSON(),
+        });
+    },
+
 });
 
 module.exports = TemplateTab;

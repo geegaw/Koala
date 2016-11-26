@@ -70,7 +70,6 @@ const FieldView = Marionette.View.extend({
         let view;
         this.types.forEach(function(option) {
             if (option.value === type) {
-                console.log(option);
                 view = option.view;
             }
         });
