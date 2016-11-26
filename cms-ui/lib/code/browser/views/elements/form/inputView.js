@@ -11,6 +11,7 @@ const InputView = Marionette.View.extend({
             extraClass: this.getOption("extraClass"),
             placeholder: this.getOption("placeholder"),
             value: this.model.get(this.getOption("field")),
+            description: this.getOption("description") || "",
         };
     },
 

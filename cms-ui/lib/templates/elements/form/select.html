@@ -1,0 +1,12 @@
+{{#label}}<label for="{{cid}}">{{label}}</label>{{/label}}
+<select id="{{cid}}" name="{{field}}" {{#extraClass}}class="{{extraClass}}"{{/extraClass}} >
+<option></option>
+{{#options}}
+    <option value="{{value}}"{{#selected}} selected{{/selected}}>{{label}}</option>
+{{/options}}
+</select>
+{{#description}}
+<span class="input--description{{#extraClass}} {{extraClass}}__description{{/extraClass}}">
+    {{description}}
+</span>
+{{/description}}
