@@ -14,7 +14,9 @@ const SelectView = InputView.extend({
         });
         delete context.value;
 
-        return Object.assign({}, context, {options});
+        return Object.assign({}, context, {
+            options
+        });
     },
 
     events: {
