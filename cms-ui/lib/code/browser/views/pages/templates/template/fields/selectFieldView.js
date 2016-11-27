@@ -9,7 +9,7 @@ const SelectView = require("../../../../elements/form/selectView");
 
 const EmailFieldView = InputFieldView.extend({
     template: "pages/templates/fields/select-field",
-    className: "field--select",
+    className: "field--element field--select",
 
     constructor: function() {
         this.regions = Object.assign({}, this.regions, InputFieldView.prototype.regions);

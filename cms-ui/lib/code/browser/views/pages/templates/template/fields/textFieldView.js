@@ -7,7 +7,7 @@ const TextView = require("../../../../elements/form/textView");
 
 const TextFieldView = InputFieldView.extend({
     template: "pages/templates/fields/text-field",
-    className: "field--text",
+    className: "field--element field--text",
 
     previewView: TextView,
 

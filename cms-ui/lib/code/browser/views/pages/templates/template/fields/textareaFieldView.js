@@ -5,7 +5,7 @@ const TextareaView = require("../../../../elements/form/textareaView");
 
 const TextareaFieldView = TextFieldView.extend({
     template: "pages/templates/fields/text-field",
-    className: "field--textarea",
+    className: "field--element field--textarea",
     previewView: TextareaView,
 });
 
