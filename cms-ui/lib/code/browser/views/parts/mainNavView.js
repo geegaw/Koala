@@ -12,6 +12,10 @@ const MainNavView = Marionette.View.extend({
     },
 
     nav: [{
+        url: "/pages",
+        label: "Pages",
+        permission: "read_pages",
+    }, {
         url: "/roles",
         label: "Roles",
         permission: "read_roles",
