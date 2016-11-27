@@ -1,0 +1,5 @@
+<div class="page-item-name search-display">
+    {{#canUpdate}}<a href="/pages/{{id}}">{{title}}</a>{{/canUpdate}}
+    {{^canUpdate}}{{title}}{{/canUpdate}}
+</div>
+{{#canDelete}}<button type="button" class="page-delete search-delete"><i></i></button>{{/canDelete}}
