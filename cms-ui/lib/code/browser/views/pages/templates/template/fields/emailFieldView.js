@@ -5,7 +5,7 @@ const EmailView = require("../../../../elements/form/emailView");
 
 const EmailFieldView = TextFieldView.extend({
     template: "pages/templates/fields/text-field",
-    className: "field--email",
+    className: "field--element field--email",
     previewView: EmailView,
 });
 

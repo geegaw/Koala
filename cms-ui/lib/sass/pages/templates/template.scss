@@ -4,6 +4,11 @@
   height: 100%;
 }
 
+.template--fields {
+  height: 92%;
+  overflow-y: auto;
+}
+
 .template--add-field {
   position: absolute;
   bottom: 1rem;
@@ -12,27 +17,75 @@
 
 .field {
   width: 100%;
-  padding: 1rem;
+  padding: 1rem 2rem 2rem 1rem;
   border-bottom: 2px solid $koala-alt-background-color;
   clear: both;
   float: left;
   position: relative;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+
+  label, select, input, textarea{
+    width: 100%;
+  }
+
+  input, select, textarea {
+    margin-top: .5rem;
+  }
 }
 
+.field--core {
+  flex-grow: 1;
+  flex-basis: auto;
+  width: 25%;
+  padding: 0 1rem;
 
-.field--preview {
-  float: right;
-  padding-right: 2rem;
+  > div {
+    margin-bottom: 1rem;
+  }
+}
+
+.field--options {
+  flex-grow: 4;
+  flex-basis: auto;
+  width: 75%;
+}
+
+.field--element {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
 }
 
 .field--options--options {
-  float: left;
+  flex-grow: 2;
+  flex-basis: auto;
+  display: inline-block;
+  width: 50%;
+  padding: 0 1rem;
+
+  > div {
+    margin-bottom: 1rem;
+  }
+}
+
+.field--preview {
+  flex-grow: 2;
+  flex-basis: auto;
+  display: inline-block;
+  width: 50%;
+  background: $koala-alt-background-color;
+  color: $koala-alt-color;
+  padding: 1rem;
+
+
 }
 
 .field--delete {
   position: absolute;
-  bottom: 1rem;
-  right: 1rem;
+  bottom: .75rem;
+  right: .75rem;
 
   i {
     @extend .fa-trash-o;
