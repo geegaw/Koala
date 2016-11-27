@@ -1,26 +1,28 @@
 "use strict";
 
 const Backbone = require("backbone");
-const Marionette = require("backbone.marionette");
 
+const InputFieldView = require("./inputFieldView");
 const TextView = require("../../../../elements/form/textView");
 
-const TextFieldView = Marionette.View.extend({
+const TextFieldView = InputFieldView.extend({
     template: "pages/templates/fields/text-field",
     className: "field--text",
+
+    previewView: TextView,
+
+    constructor: function() {
+        this.regions = Object.assign({}, this.regions, InputFieldView.prototype.regions);
+        InputFieldView.prototype.constructor.apply(this, arguments);
+    },
 
     regions: {
         placeholder: ".field--text--placeholder",
         defaultValue: ".field--text--default-value",
         description: ".field--text--description",
-        preview: ".field--preview",
     },
 
-    modelEvents: {
-        "change:name change:placeholder change:defaultValue change:description": "render",
-    },
-
-    onRender: function() {
+    renderOptions: function() {
         this.getRegion("placeholder").show(new TextView({
             model: this.model,
             field: "placeholder",
@@ -42,8 +44,10 @@ const TextFieldView = Marionette.View.extend({
             label: "Description",
             extraClass: "field--text--description--value",
         }));
+    },
 
-        this.getRegion("preview").show(new TextView({
+    renderPreview: function() {
+        this.getRegion("preview").show(new this.previewView({
             model: new Backbone.Model({
                 preview: this.model.get("defaultValue"),
             }),

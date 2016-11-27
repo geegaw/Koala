@@ -5,7 +5,10 @@ const Marionette = require("backbone.marionette");
 const SelectView = require("../../../../elements/form/selectView");
 const TextView = require("../../../../elements/form/textView");
 
+const EmailFieldView = require("./emailFieldView");
+const SelectFieldView = require("./selectFieldView");
 const TextFieldView = require("./textFieldView");
+const TextareaFieldView = require("./textareaFieldView");
 
 const FieldView = Marionette.View.extend({
     template: "pages/templates/fields/field",
@@ -22,9 +25,21 @@ const FieldView = Marionette.View.extend({
     },
 
     types: [{
+        label: "Email",
+        value: "email",
+        view: EmailFieldView,
+    }, {
+        label: "Select",
+        value: "select",
+        view: SelectFieldView,
+    }, {
         label: "Text",
         value: "text",
         view: TextFieldView,
+    }, {
+        label: "Textarea",
+        value: "textarea",
+        view: TextareaFieldView,
     }, ],
 
     events: {
