@@ -10,7 +10,7 @@ const SelectView = InputView.extend({
         let options = this.getOption("options") || [];
 
         options.forEach(function(option) {
-            options.selected = context.value === option.value;
+            option.selected = context.value === option.value;
         });
         delete context.value;
 
