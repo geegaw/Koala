@@ -19,11 +19,19 @@ const TabsView = Marionette.View.extend({
     },
 
     onRender: function() {
+        this.renderLabels();
+        this.renderBodies();
+    },
+
+    renderLabels: function() {
         this.getRegion("labels").show(new Marionette.CollectionView({
             className: "tabs--labels--labels",
             childView: TabLabelView,
             collection: this.collection,
         }));
+    },
+
+    renderBodies: function() {
         this.getRegion("bodies").show(new Marionette.CollectionView({
             childView: TabBodyView,
             collection: this.collection,
