@@ -9,7 +9,7 @@ const InputFieldView = Marionette.View.extend({
     },
 
     modelEvents: {
-        "change:name change:options change:placeholder change:defaultValue change:description": "renderPreview",
+        "change:label change:options change:placeholder change:defaultValue change:description": "renderPreview",
     },
 
     onRender: function() {

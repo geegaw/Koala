@@ -53,7 +53,7 @@ const TextFieldView = InputFieldView.extend({
             }),
             field: "preview",
             placeholder: this.model.get("placeholder"),
-            label: this.model.get("name"),
+            label: this.model.get("label"),
             description: this.model.get("description"),
             extraClass: "field--text--description--value",
         }));

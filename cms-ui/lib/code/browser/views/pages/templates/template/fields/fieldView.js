@@ -19,7 +19,7 @@ const FieldView = Marionette.View.extend({
     },
 
     regions: {
-        name: ".field--name",
+        label: ".field--label",
         type: ".field--type",
         options: ".field--options",
     },
@@ -51,12 +51,12 @@ const FieldView = Marionette.View.extend({
     },
 
     onRender: function() {
-        this.getRegion("name").show(new TextView({
+        this.getRegion("label").show(new TextView({
             model: this.model,
-            field: "name",
-            placeholder: "field name",
-            label: "Name",
-            extraClass: "field--name-value",
+            field: "label",
+            placeholder: "field label",
+            label: "Label",
+            extraClass: "field--label-value",
         }));
         this.getRegion("type").show(new SelectView({
             model: this.model,

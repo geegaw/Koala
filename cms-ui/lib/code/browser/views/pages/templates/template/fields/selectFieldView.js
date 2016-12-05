@@ -54,7 +54,7 @@ const EmailFieldView = InputFieldView.extend({
             }),
             field: "preview",
             options: this.formatOptions(),
-            label: this.model.get("name"),
+            label: this.model.get("label"),
             description: this.model.get("description"),
             extraClass: "field--select--preview",
         }));

@@ -29,11 +29,42 @@ const Template = Backbone.Model.extend({
     },
 
     toJSON: function() {
+        this.generateFieldNames();
         let json = Backbone.Model.prototype.toJSON.apply(this);
         return Object.assign({}, json, {
             tabs: this.get("tabs").toJSON(),
         });
     },
+
+    generateFieldNames: function() {
+        const nameIsUnique = this.nameIsUnique.bind(this);
+
+        let fieldsWithNoName = [];
+        this.get("tabs").forEach(function(tab) {
+            fieldsWithNoName = fieldsWithNoName.concat(tab.get("fields").where({
+                name: ""
+            }));
+        });
+        fieldsWithNoName.forEach(function(field) {
+            field.generateName();
+            let name = field.get("name");
+            let counter = 0;
+            while (!nameIsUnique(name)) {
+                counter++;
+                field.set("name", name + counter);
+            }
+        });
+    },
+
+    nameIsUnique: function(name) {
+        let unique = true;
+        this.get("tabs").forEach(function(tab) {
+            unique = unique && Boolean(tab.get("fields").where({
+                name: name
+            }).length === 1);
+        });
+        return unique;
+    }
 
 });
 
