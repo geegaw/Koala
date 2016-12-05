@@ -25,6 +25,10 @@ describe("camelize", function() {
             testcase: "very wordy, non-standard name?",
             expects: "veryWordyNonStandardName",
         },
+        "first letter is lower case": {
+            testcase: "First name",
+            expects: "firstName",
+        },
     };
 
     Object.keys(tests).forEach(function(testname) {
